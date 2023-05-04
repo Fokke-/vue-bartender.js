@@ -50,6 +50,8 @@ onMounted(() => {
   try {
     if (!el.value) return
 
+    // TODO: watch for prop changes
+
     // Emit library events
     el.value.addEventListener('bartender-init', ((event: CustomEvent) => emit('init', event)) as EventListener)
     el.value.addEventListener('bartender-destroyed', ((event: CustomEvent) => emit('destroyed', event)) as EventListener)

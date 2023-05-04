@@ -5,12 +5,19 @@
         :is="props.is"
         ref="el"
         class="bartender__bar"
+        v-bind="$attrs"
       >
         <slot />
       </component>
     </Teleport>
   </template>
 </template>
+
+<script lang="ts">
+
+export default { inheritAttrs: false }
+
+</script>
 
 <script setup lang="ts">
 

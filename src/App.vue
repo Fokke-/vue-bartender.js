@@ -185,7 +185,10 @@ import {
 import type {
   BartenderBarMode,
   BartenderBarPosition
-} from '@fokke-/bartender.js/dist/lib/types'
+} from '@fokke-/bartender.js'
+import Bartender from './components/Bartender.vue'
+import BartenderContent from './components/BartenderContent.vue'
+import BartenderBar from './components/BartenderBar.vue'
 
 const positions = [
   {

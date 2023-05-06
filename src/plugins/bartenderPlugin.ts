@@ -3,20 +3,13 @@ import type {
   DirectiveBinding,
   Plugin
 } from 'vue'
-import Bartender from '../components/Bartender.vue'
-import BartenderContent from '../components/BartenderContent.vue'
-import BartenderBar from '../components/BartenderBar.vue'
 import { useBartender } from '../composables/bartender'
-const { bartender } = useBartender()
 
 export const createBartender = (): Plugin => {
+  const { bartender } = useBartender()
+
   return {
     install (app: App) {
-      // Global components
-      app.component('Bartender', Bartender)
-      app.component('BartenderContent', BartenderContent)
-      app.component('BartenderBar', BartenderBar)
-
       // Directive for opening bar
       app.directive('bartender-open', {
         mounted (el: HTMLElement, binding: DirectiveBinding) {

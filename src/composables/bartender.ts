@@ -8,6 +8,7 @@ import { ref } from 'vue'
 import { Bartender } from '@fokke-/bartender.js'
 
 const bartender = ref<Bartender>()
+
 const createInstance = (options: BartenderOptions = {}, barOptions: BartenderBarOptions = {}): Ref<Bartender | undefined> => {
   try {
     bartender.value = new Bartender(options, barOptions)

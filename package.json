@@ -35,7 +35,7 @@
     }
   },
   "dependencies": {
-    "@fokke-/bartender.js": "^2.0.0-beta.2"
+    "@fokke-/bartender.js": "^2.0.0-beta.7"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

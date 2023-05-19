@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<{
   overlay?: boolean,
   permanent?: boolean,
   scrollTop?: boolean,
+  focusTrap?: boolean,
 }>(), {
   is: 'div',
   position: 'left',
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<{
   overlay: true,
   permanent: false,
   scrollTop: true,
+  focusTrap: false,
 })
 
 const emit = defineEmits([

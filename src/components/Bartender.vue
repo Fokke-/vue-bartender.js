@@ -22,12 +22,10 @@ const props = withDefaults(defineProps<{
   debug?: boolean,
   is?: string,
   switchTimeout?: number,
-  focusTrap?: boolean,
 }>(), {
   debug: false,
   is: 'div',
   switchTimeout: undefined,
-  focusTrap: true,
 })
 
 const emit = defineEmits([
@@ -68,7 +66,6 @@ onMounted(() => {
       el: el.value,
       contentEl: '.bartender__content',
       switchTimeout: props.switchTimeout,
-      focusTrap: props.focusTrap,
     })
   } catch (error) {
     console.error(error)

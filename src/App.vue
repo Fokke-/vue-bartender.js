@@ -102,6 +102,7 @@
       :overlay="bar.overlay"
       :permanent="bar.permanent"
       :scroll-top="bar.scrollTop"
+      :focus-trap="true"
     >
       <h2>Bar '{{ bar.name }}'</h2>
       <form @submit.prevent>

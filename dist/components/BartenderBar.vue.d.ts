@@ -35,6 +35,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    focusTrap: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("bar-updated" | "before-open" | "after-open" | "before-close" | "after-close")[], "bar-updated" | "before-open" | "after-open" | "before-close" | "after-close", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     is: {
         type: __PropType<string | undefined>;
@@ -70,6 +75,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    focusTrap: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
 }>> & {
     "onBar-updated"?: ((...args: any[]) => any) | undefined;
     "onBefore-open"?: ((...args: any[]) => any) | undefined;
@@ -83,5 +93,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     overlay: boolean | undefined;
     permanent: boolean | undefined;
     scrollTop: boolean | undefined;
-}>;
+    focusTrap: boolean | undefined;
+}, {}>;
 export default _sfc_main;

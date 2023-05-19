@@ -1,50 +1,49 @@
-var M = Object.defineProperty, N = Object.defineProperties;
-var P = Object.getOwnPropertyDescriptors;
-var C = Object.getOwnPropertySymbols;
-var S = Object.prototype.hasOwnProperty, U = Object.prototype.propertyIsEnumerable;
-var $ = (n, e, r) => e in n ? M(n, e, { enumerable: !0, configurable: !0, writable: !0, value: r }) : n[e] = r, m = (n, e) => {
-  for (var r in e || (e = {}))
-    S.call(e, r) && $(n, r, e[r]);
-  if (C)
-    for (var r of C(e))
-      U.call(e, r) && $(n, r, e[r]);
+var D = Object.defineProperty, M = Object.defineProperties;
+var N = Object.getOwnPropertyDescriptors;
+var T = Object.getOwnPropertySymbols;
+var P = Object.prototype.hasOwnProperty, S = Object.prototype.propertyIsEnumerable;
+var C = (n, r, e) => r in n ? D(n, r, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[r] = e, _ = (n, r) => {
+  for (var e in r || (r = {}))
+    P.call(r, e) && C(n, e, r[e]);
+  if (T)
+    for (var e of T(r))
+      S.call(r, e) && C(n, e, r[e]);
   return n;
-}, x = (n, e) => N(n, P(e));
-var i = (n, e, r) => new Promise((t, s) => {
-  var l = (d) => {
+}, $ = (n, r) => M(n, N(r));
+var i = (n, r, e) => new Promise((t, d) => {
+  var s = (l) => {
     try {
-      u(r.next(d));
+      u(e.next(l));
     } catch (c) {
-      s(c);
+      d(c);
     }
-  }, a = (d) => {
+  }, a = (l) => {
     try {
-      u(r.throw(d));
+      u(e.throw(l));
     } catch (c) {
-      s(c);
+      d(c);
     }
-  }, u = (d) => d.done ? t(d.value) : Promise.resolve(d.value).then(l, a);
-  u((r = r.apply(n, e)).next());
+  }, u = (l) => l.done ? t(l.value) : Promise.resolve(l.value).then(s, a);
+  u((e = e.apply(n, r)).next());
 });
-import { ref as f, defineComponent as y, onMounted as A, onBeforeUnmount as D, openBlock as b, createBlock as p, resolveDynamicComponent as E, withCtx as L, renderSlot as h, nextTick as V, watch as v, unref as I, Teleport as j, mergeProps as q, createCommentVNode as z } from "vue";
-import { Bartender as F } from "@fokke-/bartender.js";
-const B = f(), G = (n = {}, e = {}) => {
+import { ref as f, defineComponent as y, onMounted as I, onBeforeUnmount as A, openBlock as b, createBlock as p, resolveDynamicComponent as B, withCtx as E, renderSlot as L, nextTick as U, watch as v, unref as x, Teleport as V, mergeProps as j, createCommentVNode as q } from "vue";
+import { Bartender as z } from "@fokke-/bartender.js";
+const m = f(), F = (n = {}, r = {}) => {
   try {
-    B.value = new F(n, e);
-  } catch (r) {
-    console.error(r);
+    m.value = new z(n, r);
+  } catch (e) {
+    console.error(e);
   }
-  return B;
-}, T = () => ({
-  createInstance: G,
-  bartender: B
-}), H = /* @__PURE__ */ y({
+  return m;
+}, h = () => ({
+  createInstance: F,
+  bartender: m
+}), O = /* @__PURE__ */ y({
   __name: "Bartender",
   props: {
     debug: { type: Boolean, default: !1 },
     is: { default: "div" },
-    switchTimeout: { default: void 0 },
-    focusTrap: { type: Boolean, default: !0 }
+    switchTimeout: { default: void 0 }
   },
   emits: [
     "init",
@@ -58,59 +57,59 @@ const B = f(), G = (n = {}, e = {}) => {
     "after-close",
     "update"
   ],
-  setup(n, { emit: e }) {
-    const r = n, t = f(null), { createInstance: s, bartender: l } = T();
-    return A(() => {
+  setup(n, { emit: r }) {
+    const e = n, t = f(null), { createInstance: d, bartender: s } = h();
+    return I(() => {
       try {
         if (!t.value)
           return;
-        t.value.addEventListener("bartender-init", (a) => e("init", a)), t.value.addEventListener("bartender-destroyed", (a) => e("destroyed", a)), t.value.addEventListener("bartender-bar-added", (a) => e("bar-added", a)), t.value.addEventListener("bartender-bar-removed", (a) => e("bar-removed", a)), t.value.addEventListener("bartender-bar-updated", (a) => e("bar-updated", a)), t.value.addEventListener("bartender-bar-before-open", (a) => e("before-open", a)), t.value.addEventListener("bartender-bar-after-open", (a) => e("after-open", a)), t.value.addEventListener("bartender-bar-before-close", (a) => e("before-close", a)), t.value.addEventListener("bartender-bar-after-close", (a) => e("after-close", a)), s({
-          debug: r.debug,
+        t.value.addEventListener("bartender-init", (a) => r("init", a)), t.value.addEventListener("bartender-destroyed", (a) => r("destroyed", a)), t.value.addEventListener("bartender-bar-added", (a) => r("bar-added", a)), t.value.addEventListener("bartender-bar-removed", (a) => r("bar-removed", a)), t.value.addEventListener("bartender-bar-updated", (a) => r("bar-updated", a)), t.value.addEventListener("bartender-bar-before-open", (a) => r("before-open", a)), t.value.addEventListener("bartender-bar-after-open", (a) => r("after-open", a)), t.value.addEventListener("bartender-bar-before-close", (a) => r("before-close", a)), t.value.addEventListener("bartender-bar-after-close", (a) => r("after-close", a)), d({
+          debug: e.debug,
           el: t.value,
           contentEl: ".bartender__content",
-          switchTimeout: r.switchTimeout,
-          focusTrap: r.focusTrap
+          switchTimeout: e.switchTimeout
         });
       } catch (a) {
         console.error(a);
       }
-    }), D(() => i(this, null, function* () {
-      l.value && l.value.destroy();
-    })), (a, u) => (b(), p(E(r.is), {
+    }), A(() => i(this, null, function* () {
+      s.value && s.value.destroy();
+    })), (a, u) => (b(), p(B(e.is), {
       ref_key: "el",
       ref: t,
       class: "bartender"
     }, {
-      default: L(() => [
-        h(a.$slots, "default")
+      default: E(() => [
+        L(a.$slots, "default")
       ]),
       _: 3
     }, 512));
   }
-}), J = /* @__PURE__ */ y({
+}), Q = /* @__PURE__ */ y({
   __name: "BartenderContent",
   props: {
     is: { default: "div" }
   },
   setup(n) {
-    const e = n;
-    return (r, t) => (b(), p(E(e.is), { class: "bartender__content" }, {
-      default: L(() => [
-        h(r.$slots, "default")
+    const r = n;
+    return (e, t) => (b(), p(B(r.is), { class: "bartender__content" }, {
+      default: E(() => [
+        L(e.$slots, "default")
       ]),
       _: 3
     }));
   }
-}), K = { inheritAttrs: !1 }, O = /* @__PURE__ */ y(x(m({}, K), {
+}), G = { inheritAttrs: !1 }, R = /* @__PURE__ */ y($(_({}, G), {
   __name: "BartenderBar",
   props: {
     is: { default: "div" },
-    name: null,
+    name: {},
     position: { default: "left" },
     mode: { default: "float" },
     overlay: { type: Boolean, default: !0 },
     permanent: { type: Boolean, default: !1 },
-    scrollTop: { type: Boolean, default: !0 }
+    scrollTop: { type: Boolean, default: !0 },
+    focusTrap: { type: Boolean, default: !1 }
   },
   emits: [
     "bar-updated",
@@ -119,78 +118,81 @@ const B = f(), G = (n = {}, e = {}) => {
     "before-close",
     "after-close"
   ],
-  setup(n, { emit: e }) {
-    const r = n, { bartender: t } = T(), s = f(!1), l = f(null), a = f();
-    A(() => i(this, null, function* () {
+  setup(n, { emit: r }) {
+    const e = n, { bartender: t } = h(), d = f(!1), s = f(null), a = f();
+    I(() => i(this, null, function* () {
       if (t.value) {
         u();
         return;
       }
       window.addEventListener("bartender-init", u, { once: !0 });
-    })), D(() => {
-      !t.value || !t.value.getBar(r.name) || t.value.removeBar(r.name);
+    })), A(() => {
+      !t.value || !t.value.getBar(e.name) || t.value.removeBar(e.name);
     });
     const u = () => i(this, null, function* () {
-      var d, c, g, k, w;
-      if (s.value = !0, yield V(), !!t.value) {
+      var l, c, g, k, w;
+      if (d.value = !0, yield U(), !!t.value) {
         try {
-          a.value = t.value.addBar(r.name, m({
-            el: l.value
-          }, r));
+          a.value = t.value.addBar(e.name, _({
+            el: s.value
+          }, e));
         } catch (o) {
           console.error(o);
           return;
         }
-        v(() => r.position, (o) => a.value.position = o), v(() => r.mode, (o) => a.value.mode = o), v(() => r.overlay, (o) => a.value.overlay = !!o), v(() => r.permanent, (o) => a.value.permanent = !!o), v(() => r.scrollTop, (o) => a.value.scrollTop = !!o), (d = l.value) == null || d.addEventListener("bartender-bar-updated", (o) => e("bar-updated", o)), (c = l.value) == null || c.addEventListener("bartender-bar-before-open", (o) => e("before-open", o)), (g = l.value) == null || g.addEventListener("bartender-bar-after-open", (o) => e("after-open", o)), (k = l.value) == null || k.addEventListener("bartender-bar-before-close", (o) => e("before-close", o)), (w = l.value) == null || w.addEventListener("bartender-bar-after-close", (o) => e("after-close", o));
+        v(() => e.position, (o) => a.value.position = o), v(() => e.mode, (o) => a.value.mode = o), v(() => e.overlay, (o) => a.value.overlay = !!o), v(() => e.permanent, (o) => a.value.permanent = !!o), v(() => e.scrollTop, (o) => a.value.scrollTop = !!o), (l = s.value) == null || l.addEventListener("bartender-bar-updated", (o) => r("bar-updated", o)), (c = s.value) == null || c.addEventListener("bartender-bar-before-open", (o) => r("before-open", o)), (g = s.value) == null || g.addEventListener("bartender-bar-after-open", (o) => r("after-open", o)), (k = s.value) == null || k.addEventListener("bartender-bar-before-close", (o) => r("before-close", o)), (w = s.value) == null || w.addEventListener("bartender-bar-after-close", (o) => r("after-close", o));
       }
     });
-    return (d, c) => I(t) && s.value === !0 ? (b(), p(j, {
+    return (l, c) => x(t) && d.value === !0 ? (b(), p(V, {
       key: 0,
-      to: I(t).el
+      to: x(t).el
     }, [
-      (b(), p(E(r.is), q({
+      (b(), p(B(e.is), j({
         ref_key: "el",
-        ref: l,
+        ref: s,
         class: "bartender__bar"
-      }, d.$attrs), {
-        default: L(() => [
-          h(d.$slots, "default")
+      }, l.$attrs), {
+        default: E(() => [
+          L(l.$slots, "default")
         ]),
         _: 3
       }, 16))
-    ], 8, ["to"])) : z("", !0);
+    ], 8, ["to"])) : q("", !0);
   }
-})), { bartender: _ } = T(), X = () => ({
-  install(n) {
-    n.component("Bartender", H), n.component("BartenderContent", J), n.component("BartenderBar", O), n.directive("bartender-open", {
-      mounted(e, r) {
-        e.addEventListener("click", () => {
-          var t;
-          (t = _.value) == null || t.open(r.value, e);
-        });
-      }
-    }), n.directive("bartender-toggle", {
-      mounted(e, r) {
-        e.addEventListener("click", () => {
-          var t;
-          (t = _.value) == null || t.toggle(r.value, e);
-        });
-      }
-    }), n.directive("bartender-close", {
-      mounted(e, r) {
-        e.addEventListener("click", () => {
-          var t;
-          (t = _.value) == null || t.close(r.value);
-        });
-      }
-    });
-  }
-});
+})), W = () => {
+  const { bartender: n } = h();
+  return {
+    install(r) {
+      r.directive("bartender-open", {
+        mounted(e, t) {
+          e.addEventListener("click", () => {
+            var d;
+            (d = n.value) == null || d.open(t.value, e);
+          });
+        }
+      }), r.directive("bartender-toggle", {
+        mounted(e, t) {
+          e.addEventListener("click", () => {
+            var d;
+            (d = n.value) == null || d.toggle(t.value, e);
+          });
+        }
+      }), r.directive("bartender-close", {
+        mounted(e, t) {
+          e.addEventListener("click", () => {
+            var d;
+            (d = n.value) == null || d.close(t.value);
+          });
+        }
+      });
+    }
+  };
+};
 export {
-  H as Bartender,
-  O as BartenderBar,
-  J as BartenderContent,
-  X as createBartender,
-  T as useBartender
+  O as Bartender,
+  R as BartenderBar,
+  Q as BartenderContent,
+  W as createBartender,
+  h as useBartender
 };
 //# sourceMappingURL=VueBartender.js.map

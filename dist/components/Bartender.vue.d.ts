@@ -15,11 +15,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: undefined;
     };
-    focusTrap: {
-        type: __PropType<boolean | undefined>;
-        required: false;
-        default: boolean;
-    };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("init" | "destroyed" | "bar-added" | "bar-removed" | "bar-updated" | "before-open" | "after-open" | "before-close" | "after-close" | "update")[], "init" | "destroyed" | "bar-added" | "bar-removed" | "bar-updated" | "before-open" | "after-open" | "before-close" | "after-close" | "update", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     debug: {
         type: __PropType<boolean | undefined>;
@@ -36,11 +31,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: undefined;
     };
-    focusTrap: {
-        type: __PropType<boolean | undefined>;
-        required: false;
-        default: boolean;
-    };
 }>> & {
     onInit?: ((...args: any[]) => any) | undefined;
     onDestroyed?: ((...args: any[]) => any) | undefined;
@@ -56,6 +46,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     debug: boolean | undefined;
     is: string | undefined;
     switchTimeout: number | undefined;
-    focusTrap: boolean | undefined;
-}>;
+}, {}>;
 export default _sfc_main;

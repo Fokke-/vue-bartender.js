@@ -110,6 +110,7 @@ const init = async () => {
   watch(() => props.overlay, val => bar.value.overlay = !!val)
   watch(() => props.permanent, val => bar.value.permanent = !!val)
   watch(() => props.scrollTop, val => bar.value.scrollTop = !!val)
+  watch(() => props.focusTrap, val => bar.value.focusTrap = !!val)
 
   // Emit library events
   el.value?.addEventListener('bartender-bar-updated', ((event: CustomEvent) => emit('bar-updated', event)) as EventListener)

@@ -1,0 +1,43 @@
+h1,
+h2,
+h3 {
+  font-weight: 400;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+p {
+  &.summary {
+    font-size: 1.2em;
+    font-style: italic;
+    text-align: center;
+    color: #fff;
+    margin: 2em 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+}

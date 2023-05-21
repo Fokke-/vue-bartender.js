@@ -1,178 +1,143 @@
 
 <template>
-  <Bartender :debug="true">
+  <Bartender v-bind="config">
     <BartenderContent>
-      <div class="buttonContainer">
-        <div
-          v-for="item of toggleButtons"
-          :key="item.name"
-          :class="[
-            'buttonContainer__item',
-            item.fadeIn === true ? 'buttonContainer__item--animate-in' : null,
-            item.jello === true ? 'animation-jello' : null,
-          ]"
-        >
-          <button
-            type="button"
-            class="button"
-            v-bartender-toggle="item.barName"
+      <div class="block">
+        <h1>vue-bartender.js</h1>
+      </div>
+      <div class="block">
+        <h2>Routes</h2>
+
+        <nav v-if="router.options.routes.length">
+          <ul
+            v-for="item of router.options.routes"
+            :key="item.name"
           >
-            Toggle {{ item.barName }}
-          </button>
+            <li>
+              <router-link :to="item">
+                {{ item.name }}
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+
+        <router-view />
+      </div>
+      <div class="block">
+        <div class="columnContainer">
+          <div class="column">
+            <div class="box">
+              <h2>Main configuration</h2>
+              <div class="field">
+                <div class="checkbox">
+                  <input
+                    class="checkbox__input"
+                    v-model="config.debug"
+                    type="checkbox"
+                    name="debug"
+                    id="debug"
+                  >
+                  <label
+                    class="checkbox__label"
+                    for="debug"
+                  >
+                    Debug mode
+                  </label>
+                </div>
+              </div>
+              <div class="field">
+                <label
+                  for="switchTimeout"
+                  class="label"
+                >
+                  Switch timeout
+                </label>
+                <div class="field__content">
+                  <input
+                    v-model="config.switchTimeout"
+                    id="switchTimeout"
+                    type="number"
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <form @submit.prevent="barFormSubmit">
-        <h2>Create a new bar</h2>
-        <div>
-          <label for="newBar-name">Name</label>
-          <input
-            v-model="newBarData.name"
-            id="newBar-name"
-            type="text"
-            required
-            pattern="[a-zA-Z]+"
-          >
-          <p>Letters only!</p>
+      <div class="block">
+        <div class="columnContainer">
+          <div class="column">
+            <div class="block">
+              <div class="box">
+                <h2>Create a new bar</h2>
+                <BarConfig
+                  v-model:name="newBarName"
+                  v-model:options="newBarOptions"
+                  @submit="barFormSubmit"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="block">
+              <div class="box">
+                <h2>Current bars</h2>
+                <div class="buttons">
+                  <button
+                    v-for="item of bars"
+                    :key="`bar-${item.name}`"
+                    type="button"
+                    :class="[
+                      'button',
+                      `button--${item.name}`
+                    ]"
+                    v-bartender-toggle="item.name"
+                  >
+                    <span class="sr-only">Toggle</span> {{ item.name }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <fieldset>
-          <legend>Position</legend>
-          <div
-            v-for="item of positions"
-            :key="item.value"
-          >
-            <input
-              v-model="newBarData.position"
-              type="radio"
-              name="position"
-              :value="item.value"
-              :id="`newBar-position-${item.value}`"
-            >
-            <label :for="`newBar-position-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Mode</legend>
-          <div
-            v-for="item of modes"
-            :key="item.value"
-          >
-            <input
-              v-model="newBarData.mode"
-              type="radio"
-              name="mode"
-              :value="item.value"
-              :id="`newBar-mode-${item.value}`"
-            >
-            <label :for="`newBar-mode-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Settings</legend>
-          <div
-            v-for="item of barSettings"
-            :key="item.value"
-          >
-            <input
-              v-model="newBarData[item.value as keyof typeof newBarDataDefaults]"
-              type="checkbox"
-              name="settings"
-              :id="`newBar-setting-${item.value}`"
-            >
-            <label :for="`newBar-setting-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-        <button type="submit">
-          Create
-        </button>
-      </form>
+      </div>
     </BartenderContent>
 
     <BartenderBar
       v-for="bar of bars"
       :key="bar.name"
       :name="bar.name"
-      :position="bar.position"
-      :mode="bar.mode"
-      :overlay="bar.overlay"
-      :permanent="bar.permanent"
-      :scroll-top="bar.scrollTop"
-      :focus-trap="true"
+      :position="bar.options.position"
+      :mode="bar.options.mode"
+      :overlay="bar.options.overlay"
+      :permanent="bar.options.permanent"
+      :scroll-top="bar.options.scrollTop"
+      :focus-trap="bar.options.focusTrap"
     >
-      <h2>Bar '{{ bar.name }}'</h2>
-      <form @submit.prevent>
-        <fieldset>
-          <legend>Position</legend>
-          <div
-            v-for="item of positions"
-            :key="item.value"
+      <div class="block">
+        <h2>Bar '{{ bar.name }}'</h2>
+        <BarConfig
+          v-model:name="bar.name"
+          v-model:options="bar.options"
+          edit-mode
+        />
+      </div>
+      <div class="block">
+        <h2>Switch to another bar?</h2>
+        <div class="buttons">
+          <template
+            v-for="item of bars"
+            :key="item.name"
           >
-            <input
-              v-model="bar.position"
-              type="radio"
-              :name="`bar-${bar.name}-position`"
-              :value="item.value"
-              :id="`bar-${bar.name}-mode-${item.value}`"
+            <button
+              v-if="item.name !== bar.name"
+              type="button"
+              v-bartender-toggle="item.name"
             >
-            <label :for="`bar-${bar.name}-mode-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Mode</legend>
-          <div
-            v-for="item of modes"
-            :key="item.value"
-          >
-            <input
-              v-model="bar.mode"
-              type="radio"
-              :name="`bar-${bar.name}-mode`"
-              :value="item.value"
-              :id="`bar-${bar.name}-mode-${item.value}`"
-            >
-            <label :for="`bar-${bar.name}-mode-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Settings</legend>
-          <div
-            v-for="item of barSettings"
-            :key="item.value"
-          >
-            <input
-              v-model="bar[item.value as keyof typeof newBarDataDefaults]"
-              type="checkbox"
-              :name="`bar-${bar.name}-settings`"
-              :id="`bar-${bar.name}-${item.value}`"
-            >
-            <label :for="`bar-${bar.name}-${item.value}`">
-              {{ item.label }}
-            </label>
-          </div>
-        </fieldset>
-      </form>
-      <div>
-        <template
-          v-for="item of bars"
-          :key="item.name"
-        >
-          <button
-            v-if="item.name !== bar.name"
-            type="button"
-            v-bartender-toggle="item.name"
-          >
-            Toggle {{ item.name }}
-          </button>
-        </template>
+              <span class="sr-only">Toggle</span> {{ item.name }}
+            </button>
+          </template>
+        </div>
       </div>
     </BartenderBar>
   </Bartender>
@@ -180,129 +145,81 @@
 
 <script setup lang="ts">
 
-import {
-  nextTick, onMounted, ref
-} from 'vue'
+import type { Ref } from 'vue'
+import type { Bar } from './types.d'
 import type {
+  BartenderOptions,
   BartenderBarMode,
   BartenderBarPosition
 } from '@fokke-/bartender.js'
+import {
+  nextTick, onMounted, ref
+} from 'vue'
+import { useRouter } from 'vue-router'
 import Bartender from './components/Bartender.vue'
 import BartenderContent from './components/BartenderContent.vue'
 import BartenderBar from './components/BartenderBar.vue'
+import BarConfig from './components/BarConfig.vue'
 
-const positions = [
-  {
-    label: 'Left',
-    value: 'left',
-  },
-  {
-    label: 'Right',
-    value: 'right',
-  },
-  {
-    label: 'Top',
-    value: 'top',
-  },
-  {
-    label: 'Bottom',
-    value: 'bottom',
-  },
-]
+const router = useRouter()
 
-const modes = [
-  {
-    label: 'Float',
-    value: 'float',
-  },
-  {
-    label: 'Push',
-    value: 'push',
-  },
-  {
-    label: 'Reveal',
-    value: 'reveal',
-  },
-]
-
-const barSettings = [
-  {
-    label: 'Overlay',
-    value: 'overlay',
-  },
-  {
-    label: 'Permanent',
-    value: 'permanent',
-  },
-  {
-    label: 'Scroll to top after opening',
-    value: 'scrollTop',
-  },
-]
-
-const bars = ref([])
-const toggleButtons = ref([])
-const newBarDataDefaults = {
-  name: '',
+const bars: Ref<Bar[]> = ref([])
+const config: Ref<BartenderOptions> = ref({
+  debug: true,
+  switchTimeout: 150,
+})
+const newBarName = ref('')
+const newBarOptionsDefaults = {
   position: 'left' as BartenderBarPosition,
   mode: 'float' as BartenderBarMode,
   overlay: true,
   permanent: false,
   scrollTop: true,
+  focusTrap: true,
 }
-const newBarData = ref({ ...newBarDataDefaults })
+const newBarOptions = ref({ ...newBarOptionsDefaults })
 
-const createBar = (options = {}, animate = false): Promise<void> => {
+const createBar = (name: string, options = {}): Promise<void> => {
   return new Promise((resolve) => {
-    if (bars.value.some(item => item.name == options.name)) throw new Error(`Bar with name ${options.name} already exists.`)
-    bars.value.push(options)
+    if (!name) throw new Error('Bar name is required.')
+    if (bars.value.some(item => item.name == name)) throw new Error(`Bar with name ${name} already exists.`)
 
-    const button = {
-      barName: options.name,
-      fadeIn: animate,
-      jello: false,
-    }
-
-    toggleButtons.value.push(button)
-
-    if (animate === true) return resolve()
-
-    window.requestAnimationFrame(() => {
-      button.fadeIn = true
-      button.jello = true
-
-      return resolve()
-
+    bars.value.push({
+      name,
+      options,
     })
+
+    resolve()
   })
 }
 
 const barFormSubmit = async () => {
   try {
-    await createBar(newBarData.value)
-    newBarData.value = { ...newBarDataDefaults }
+    await createBar(newBarName.value, { ...newBarOptions.value })
+    await nextTick()
 
+    const toggleButton = document.querySelector(`.button--${newBarName.value}`) as HTMLElement
+    if (toggleButton) {
+      toggleButton.focus()
+    }
+
+    newBarName.value = ''
+    newBarOptions.value = { ...newBarOptionsDefaults }
   } catch (error) {
     console.error(error)
   }
 }
 
 onMounted(async () => {
-  await createBar({
-    ...newBarDataDefaults,
-    name: 'First',
+  createBar('First', {
+    ...newBarOptionsDefaults,
     mode: 'push',
-  }, true)
-  await createBar({
-    ...newBarDataDefaults,
-    name: 'Second',
+  })
+  createBar('Second', {
+    ...newBarOptionsDefaults,
     position: 'right',
-  }, true)
+  })
 })
-
-// const testEvent = (event: CustomEvent) => {
-//   console.log(event.type, event.detail)
-// }
 
 </script>
 
@@ -310,143 +227,50 @@ onMounted(async () => {
 
 @import 'modern-normalize/modern-normalize.css';
 @import '@fokke-/bartender.js/dist/bartender.scss';
-
-$spacing-half: .5rem;
-$spacing-single: 1rem;
-
-@keyframes jello {
-  from,
-  11.1%,
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-
-  22.2% {
-    transform: skewX(-12.5deg) skewY(-12.5deg);
-  }
-
-  33.3% {
-    transform: skewX(6.25deg) skewY(6.25deg);
-  }
-
-  44.4% {
-    transform: skewX(-3.125deg) skewY(-3.125deg);
-  }
-
-  55.5% {
-    transform: skewX(1.5625deg) skewY(1.5625deg);
-  }
-
-  66.6% {
-    transform: skewX(-0.78125deg) skewY(-0.78125deg);
-  }
-
-  77.7% {
-    transform: skewX(0.390625deg) skewY(0.390625deg);
-  }
-
-  88.8% {
-    transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
-  }
-}
-
-.animation-jello {
-  animation-name: jello;
-  animation-duration: 1000ms;
-  transform-origin: center;
-}
-
-* {
-  box-sizing: border-box;
-}
+@import './assets/utils';
+@import './assets/base';
+@import './assets/form';
 
 body {
-  margin: 0;
-  font-family: sans-serif;
-  background: #3d0036;
-}
-
-h1 {
-  margin: 0;
+  line-height: 1.5;
 }
 
 .bartender {
-  &__content {
-    padding: 20vw;
-    color: #fff;
-    background: #3d0036;
+  &__content,
+  &__bar {
+    padding: clamp(1rem, 5vw, 2rem);
   }
 }
 
-.buttonContainer {
+.block {
+  margin: 3rem 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.columnContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  margin: -1.5rem;
 
-  &__item {
-    opacity: 0;
-    padding: $spacing-half;
-    transition: opacity 300ms ease;
-
-    &--animate-in {
-      opacity: 1;
-    }
+  @media (min-width: 800px) {
+    flex-direction: row;
   }
 }
 
-@keyframes huerotate {
-    0% {
-        filter: hue-rotate(0deg);
-    }
-    100% {
-        filter: hue-rorate(360deg);
-    }
-}
+.column {
+  padding: 1.5rem;
 
-.button {
-  position: relative;
-  margin: 0;
-  padding: .5em 1em;
-  outline: 0;
-  font-size: inherit;
-  background: transparent;
-  color: inherit;
-  appearance: none;
-
-  border: solid 2px;
-
-  &:before {
-    position: absolute;
-    left: -2px;
-    right: -2px;
-    top: -2px;
-    bottom: -2px;
-    content: '';
-    background: transparent;
-    border: solid 2px;
-    border-image: linear-gradient(45deg, gold, red) 1;
-    clip-path: inset(0px);
+  @media (min-width: 800px) {
+    flex: 0 0 50%;
   }
-
-  &:hover,
-  &:focus {
-    animation: huerotate 1s infinite linear;
-    filter: hue-rotate(360deg);
-  }
-
-  // &:after {
-  //   z-index: -1;
-  //   position: absolute;
-  //   left: -2px;
-  //   right: -2px;
-  //   top: -2px;
-  //   bottom: -2px;
-  //   content: '';
-  //   border: solid 2px red;
-  //   border-radius: 10em;
-  //   background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
-  // }
 }
 
 </style>

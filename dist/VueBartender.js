@@ -1,48 +1,45 @@
-var D = Object.defineProperty, M = Object.defineProperties;
+var I = Object.defineProperty, M = Object.defineProperties;
 var N = Object.getOwnPropertyDescriptors;
-var w = Object.getOwnPropertySymbols;
+var k = Object.getOwnPropertySymbols;
 var P = Object.prototype.hasOwnProperty, S = Object.prototype.propertyIsEnumerable;
-var C = (n, r, e) => r in n ? D(n, r, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[r] = e, _ = (n, r) => {
+var C = (n, r, e) => r in n ? I(n, r, { enumerable: !0, configurable: !0, writable: !0, value: e }) : n[r] = e, m = (n, r) => {
   for (var e in r || (r = {}))
     P.call(r, e) && C(n, e, r[e]);
-  if (w)
-    for (var e of w(r))
+  if (k)
+    for (var e of k(r))
       S.call(r, e) && C(n, e, r[e]);
   return n;
 }, $ = (n, r) => M(n, N(r));
-var i = (n, r, e) => new Promise((a, d) => {
-  var s = (l) => {
+var f = (n, r, e) => new Promise((a, d) => {
+  var t = (l) => {
     try {
-      u(e.next(l));
+      v(e.next(l));
     } catch (c) {
       d(c);
     }
-  }, t = (l) => {
+  }, s = (l) => {
     try {
-      u(e.throw(l));
+      v(e.throw(l));
     } catch (c) {
       d(c);
     }
-  }, u = (l) => l.done ? a(l.value) : Promise.resolve(l.value).then(s, t);
-  u((e = e.apply(n, r)).next());
+  }, v = (l) => l.done ? a(l.value) : Promise.resolve(l.value).then(t, s);
+  v((e = e.apply(n, r)).next());
 });
-import { ref as f, defineComponent as y, onMounted as I, onBeforeUnmount as A, openBlock as b, createBlock as p, resolveDynamicComponent as B, withCtx as E, renderSlot as L, nextTick as U, watch as v, unref as x, Teleport as V, mergeProps as j, createCommentVNode as q } from "vue";
+import { ref as i, defineComponent as y, onMounted as A, watch as u, onBeforeUnmount as D, openBlock as b, createBlock as p, resolveDynamicComponent as B, withCtx as E, renderSlot as L, nextTick as U, unref as x, Teleport as V, mergeProps as j, createCommentVNode as q } from "vue";
 import { Bartender as z } from "@fokke-/bartender.js";
-const m = f(), F = (n = {}, r = {}) => {
+const _ = i(), F = (n = {}, r = {}) => {
   try {
-    m.value = new z(n, r);
+    _.value = new z(n, r);
   } catch (e) {
     console.error(e);
   }
-  return m;
-}, h = () => ({
-  createInstance: F,
-  bartender: m
-}), O = /* @__PURE__ */ y({
+  return _;
+}, h = () => ({ bartender: _ }), O = /* @__PURE__ */ y({
   __name: "Bartender",
   props: {
-    debug: { type: Boolean, default: !1 },
     is: { default: "div" },
+    debug: { type: Boolean, default: void 0 },
     switchTimeout: { default: void 0 }
   },
   emits: [
@@ -54,16 +51,15 @@ const m = f(), F = (n = {}, r = {}) => {
     "before-open",
     "after-open",
     "before-close",
-    "after-close",
-    "update"
+    "after-close"
   ],
   setup(n, { emit: r }) {
-    const e = n, a = f(null), { createInstance: d, bartender: s } = h();
-    return I(() => {
+    const e = n, a = i(null), { bartender: d } = h();
+    return A(() => {
       try {
         if (!a.value)
           return;
-        a.value.addEventListener("bartender-init", (t) => r("init", t)), a.value.addEventListener("bartender-destroyed", (t) => r("destroyed", t)), a.value.addEventListener("bartender-bar-added", (t) => r("bar-added", t)), a.value.addEventListener("bartender-bar-removed", (t) => r("bar-removed", t)), a.value.addEventListener("bartender-bar-updated", (t) => r("bar-updated", t)), a.value.addEventListener("bartender-bar-before-open", (t) => r("before-open", t)), a.value.addEventListener("bartender-bar-after-open", (t) => r("after-open", t)), a.value.addEventListener("bartender-bar-before-close", (t) => r("before-close", t)), a.value.addEventListener("bartender-bar-after-close", (t) => r("after-close", t)), d({
+        a.value.addEventListener("bartender-init", (t) => r("init", t)), a.value.addEventListener("bartender-destroyed", (t) => r("destroyed", t)), a.value.addEventListener("bartender-bar-added", (t) => r("bar-added", t)), a.value.addEventListener("bartender-bar-removed", (t) => r("bar-removed", t)), a.value.addEventListener("bartender-bar-updated", (t) => r("bar-updated", t)), a.value.addEventListener("bartender-bar-before-open", (t) => r("before-open", t)), a.value.addEventListener("bartender-bar-after-open", (t) => r("after-open", t)), a.value.addEventListener("bartender-bar-before-close", (t) => r("before-close", t)), a.value.addEventListener("bartender-bar-after-close", (t) => r("after-close", t)), F({
           debug: e.debug,
           el: a.value,
           contentEl: ".bartender__content",
@@ -72,9 +68,14 @@ const m = f(), F = (n = {}, r = {}) => {
       } catch (t) {
         console.error(t);
       }
-    }), A(() => i(this, null, function* () {
-      s.value && s.value.destroy();
-    })), (t, u) => (b(), p(B(e.is), {
+      u(() => e.debug, (t) => {
+        d.value && (d.value.debug = !!t);
+      }), u(() => e.switchTimeout, (t) => {
+        !d.value || !t || (d.value.switchTimeout = t);
+      });
+    }), D(() => f(this, null, function* () {
+      d.value && d.value.destroy();
+    })), (t, s) => (b(), p(B(e.is), {
       ref_key: "el",
       ref: a,
       class: "bartender"
@@ -99,7 +100,7 @@ const m = f(), F = (n = {}, r = {}) => {
       _: 3
     }));
   }
-}), G = { inheritAttrs: !1 }, R = /* @__PURE__ */ y($(_({}, G), {
+}), G = { inheritAttrs: !1 }, R = /* @__PURE__ */ y($(m({}, G), {
   __name: "BartenderBar",
   props: {
     is: { default: "div" },
@@ -119,28 +120,28 @@ const m = f(), F = (n = {}, r = {}) => {
     "after-close"
   ],
   setup(n, { emit: r }) {
-    const e = n, { bartender: a } = h(), d = f(!1), s = f(null), t = f();
-    I(() => i(this, null, function* () {
+    const e = n, { bartender: a } = h(), d = i(!1), t = i(null), s = i();
+    A(() => f(this, null, function* () {
       if (a.value) {
-        u();
+        v();
         return;
       }
-      window.addEventListener("bartender-init", u, { once: !0 });
-    })), A(() => {
+      window.addEventListener("bartender-init", v, { once: !0 });
+    })), D(() => {
       !a.value || !a.value.getBar(e.name) || a.value.removeBar(e.name);
     });
-    const u = () => i(this, null, function* () {
-      var l, c, T, g, k;
+    const v = () => f(this, null, function* () {
+      var l, c, T, g, w;
       if (d.value = !0, yield U(), !!a.value) {
         try {
-          t.value = a.value.addBar(e.name, _({
-            el: s.value
+          s.value = a.value.addBar(e.name, m({
+            el: t.value
           }, e));
         } catch (o) {
           console.error(o);
           return;
         }
-        v(() => e.position, (o) => t.value.position = o), v(() => e.mode, (o) => t.value.mode = o), v(() => e.overlay, (o) => t.value.overlay = !!o), v(() => e.permanent, (o) => t.value.permanent = !!o), v(() => e.scrollTop, (o) => t.value.scrollTop = !!o), v(() => e.focusTrap, (o) => t.value.focusTrap = !!o), (l = s.value) == null || l.addEventListener("bartender-bar-updated", (o) => r("bar-updated", o)), (c = s.value) == null || c.addEventListener("bartender-bar-before-open", (o) => r("before-open", o)), (T = s.value) == null || T.addEventListener("bartender-bar-after-open", (o) => r("after-open", o)), (g = s.value) == null || g.addEventListener("bartender-bar-before-close", (o) => r("before-close", o)), (k = s.value) == null || k.addEventListener("bartender-bar-after-close", (o) => r("after-close", o));
+        u(() => e.position, (o) => s.value.position = o), u(() => e.mode, (o) => s.value.mode = o), u(() => e.overlay, (o) => s.value.overlay = !!o), u(() => e.permanent, (o) => s.value.permanent = !!o), u(() => e.scrollTop, (o) => s.value.scrollTop = !!o), u(() => e.focusTrap, (o) => s.value.focusTrap = !!o), (l = t.value) == null || l.addEventListener("bartender-bar-updated", (o) => r("bar-updated", o)), (c = t.value) == null || c.addEventListener("bartender-bar-before-open", (o) => r("before-open", o)), (T = t.value) == null || T.addEventListener("bartender-bar-after-open", (o) => r("after-open", o)), (g = t.value) == null || g.addEventListener("bartender-bar-before-close", (o) => r("before-close", o)), (w = t.value) == null || w.addEventListener("bartender-bar-after-close", (o) => r("after-close", o));
       }
     });
     return (l, c) => x(a) && d.value === !0 ? (b(), p(V, {
@@ -149,7 +150,7 @@ const m = f(), F = (n = {}, r = {}) => {
     }, [
       (b(), p(B(e.is), j({
         ref_key: "el",
-        ref: s,
+        ref: t,
         class: "bartender__bar"
       }, l.$attrs), {
         default: E(() => [

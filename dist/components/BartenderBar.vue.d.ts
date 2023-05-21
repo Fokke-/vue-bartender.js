@@ -1,5 +1,5 @@
 import type { PropType as __PropType } from 'vue';
-import type { BartenderBarMode, BartenderBarPosition } from '@fokke-/bartender.js/dist/lib/types';
+import type { BartenderBarMode, BartenderBarPosition } from '@fokke-/bartender.js';
 declare const _sfc_main: import("vue").DefineComponent<{
     is: {
         type: __PropType<string | undefined>;

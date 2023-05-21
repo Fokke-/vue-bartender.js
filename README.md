@@ -96,7 +96,7 @@ Type: `boolean`, Default: `false`
 
 If enabled, Bartender will log it's activity to console. Note that these messages will be outputted at debug log level and you need to configure your console to show these messages.
 
-##### switchTimeout
+##### switch-timeout
 
 Type: `number` (milliseconds), Default: `150`
 
@@ -196,13 +196,13 @@ If enabled, the bar is not closable by clicking overlay of pressing `esc` key.
 
 **IMPORTANT:** If you enable this, remember to provide a way to close the bar.
 
-##### scrollTop
+##### scroll-top
 
 Type: `boolean`, Default: `true`
 
 If enabled, bar will be scrolled to top when opening it.
 
-##### focusTrap
+##### focus-trap
 
 Type: `boolean`, Default: `false`
 
@@ -212,7 +212,7 @@ If enabled, keyboard focus will be trapped to the currently open bar.
 
 ## Directives
 
-The plugin will define the following global directives.
+The plugin will install the following global directives.
 
 ### v-bartender-open
 

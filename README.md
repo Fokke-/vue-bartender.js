@@ -2,6 +2,8 @@
 
 This package contains Vue 3 components for [Bartender.js](https://www.npmjs.com/package/@fokke-/bartender.js), providing an easy way to use the library in your Vue application.
 
+Bars will be teleported as direct children of the main component, so you can define your bars per router view, for example.
+
 ## Requirements
 
 - Vue >=3.2.0

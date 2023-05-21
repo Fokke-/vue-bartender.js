@@ -42,7 +42,6 @@ const emit = defineEmits([
   'after-open',
   'before-close',
   'after-close',
-  'update',
 ])
 
 const el: Ref<HTMLBodyElement | HTMLElement | null> = ref(null)

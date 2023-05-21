@@ -4,9 +4,6 @@ import dts from 'vite-plugin-dts'
 
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
-import {
-  fileURLToPath, URL
-} from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({

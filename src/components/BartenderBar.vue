@@ -25,7 +25,7 @@ import type { Ref } from 'vue'
 import type {
   BartenderBarMode,
   BartenderBarPosition
-} from '@fokke-/bartender.js/dist/lib/types'
+} from '@fokke-/bartender.js'
 
 import {
   ref,

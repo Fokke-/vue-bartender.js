@@ -17,7 +17,10 @@ import {
   onMounted,
   onBeforeUnmount
 } from 'vue'
-import { useBartender } from '../composables/bartender.js'
+import {
+  createInstance,
+  useBartender
+} from '../composables/bartender.js'
 
 const props = withDefaults(defineProps<{
   is?: string,
@@ -43,7 +46,7 @@ const emit = defineEmits([
 ])
 
 const el: Ref<HTMLBodyElement | HTMLElement | null> = ref(null)
-const { createInstance, bartender } = useBartender()
+const { bartender } = useBartender()
 
 onMounted(() => {
   try {

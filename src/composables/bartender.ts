@@ -9,7 +9,7 @@ import { Bartender } from '@fokke-/bartender.js'
 
 const bartender = ref<Bartender>()
 
-const createInstance = (options: BartenderOptions = {}, barOptions: BartenderBarOptions = {}): Ref<Bartender | undefined> => {
+export const createInstance = (options: BartenderOptions = {}, barOptions: BartenderBarOptions = {}): Ref<Bartender | undefined> => {
   try {
     bartender.value = new Bartender(options, barOptions)
   } catch (error) {
@@ -20,8 +20,5 @@ const createInstance = (options: BartenderOptions = {}, barOptions: BartenderBar
 }
 
 export const useBartender = () => {
-  return {
-    createInstance,
-    bartender,
-  }
+  return { bartender }
 }

@@ -13,18 +13,19 @@
 import type { Ref } from 'vue'
 import {
   ref,
+  watch,
   onMounted,
   onBeforeUnmount
 } from 'vue'
 import { useBartender } from '../composables/bartender.js'
 
 const props = withDefaults(defineProps<{
-  debug?: boolean,
   is?: string,
+  debug?: boolean,
   switchTimeout?: number,
 }>(), {
-  debug: false,
   is: 'div',
+  debug: undefined,
   switchTimeout: undefined,
 })
 
@@ -48,8 +49,6 @@ onMounted(() => {
   try {
     if (!el.value) return
 
-    // TODO: watch for prop changes
-
     // Emit library events
     el.value.addEventListener('bartender-init', ((event: CustomEvent) => emit('init', event)) as EventListener)
     el.value.addEventListener('bartender-destroyed', ((event: CustomEvent) => emit('destroyed', event)) as EventListener)
@@ -70,6 +69,16 @@ onMounted(() => {
   } catch (error) {
     console.error(error)
   }
+
+  watch(() => props.debug, val => {
+    if (!bartender.value) return
+    bartender.value.debug = !!val
+  })
+
+  watch(() => props.switchTimeout, val => {
+    if (!bartender.value || !val) return
+    bartender.value.switchTimeout = val
+  })
 })
 
 onBeforeUnmount(async () => {

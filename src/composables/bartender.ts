@@ -23,7 +23,6 @@ export const useBartender = () => {
   const bartenderInstance = inject<Ref<Bartender | null>>('bartender-instance', ref(null))
   if (!bartenderInstance.value) {
     console.error('You must use Bartender plugin before calling useBartender().')
-    return
   }
 
   const getBar = (name: string) => {

@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import type { BartenderBarOptions, BartenderOptions } from '@fokke-/bartender.js'
 
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { Bartender } from '@fokke-/bartender.js'
 
 const bartender = ref<Bartender>()
@@ -20,36 +20,42 @@ export const createInstance = (
 }
 
 export const useBartender = () => {
+  const bartenderInstance = inject<Ref<Bartender | null>>('bartender-instance', ref(null))
+  if (!bartenderInstance.value) {
+    console.error('You must use Bartender plugin before calling useBartender().')
+    return
+  }
+
   const getBar = (name: string) => {
-    if (!bartender.value) {
+    if (!bartenderInstance.value) {
       return
     }
 
-    return bartender.value.getBar(name)
+    return bartenderInstance.value.getBar(name)
   }
 
   const open = (name: string) => {
-    if (!bartender.value) {
+    if (!bartenderInstance.value) {
       return
     }
 
-    bartender.value.open(name)
+    bartenderInstance.value.open(name)
   }
 
   const close = (name?: string) => {
-    if (!bartender.value) {
+    if (!bartenderInstance.value) {
       return
     }
 
-    bartender.value.close(name)
+    bartenderInstance.value.close(name)
   }
 
   const toggle = (name: string) => {
-    if (!bartender.value) {
+    if (!bartenderInstance.value) {
       return
     }
 
-    bartender.value.toggle(name)
+    bartenderInstance.value.toggle(name)
   }
 
   return { getBar, open, close, toggle }

@@ -102,6 +102,10 @@
         </template>
       </div>
     </div>
+    <div class="block">
+      <h2>Actions from composable</h2>
+      <button type="button" @click="bartender.close()">Close</button>
+    </div>
   </BartenderBar>
 </template>
 
@@ -115,7 +119,9 @@ import { useRouter } from 'vue-router'
 // import BartenderContent from './components/BartenderContent.vue'
 import BartenderBar from './components/BartenderBar.vue'
 import BarConfig from './components/BarConfig.vue'
+import { useBartender } from './composables/bartender'
 
+const bartender = useBartender()
 const router = useRouter()
 
 const bars: Ref<Bar[]> = ref([])

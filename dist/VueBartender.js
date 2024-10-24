@@ -1,6 +1,6 @@
-import { defineComponent as v, inject as i, ref as c, useTemplateRef as f, onMounted as p, watch as d, onBeforeUnmount as b, openBlock as m, createElementBlock as B, mergeProps as g, renderSlot as E } from "vue";
-import { Bartender as y } from "@fokke-/bartender.js";
-const T = /* @__PURE__ */ v({
+import { defineComponent as i, inject as c, ref as s, useTemplateRef as v, onMounted as f, watch as d, onBeforeUnmount as p, openBlock as b, createElementBlock as m, mergeProps as B, renderSlot as g } from "vue";
+import { Bartender as E } from "@fokke-/bartender.js";
+const _ = /* @__PURE__ */ i({
   __name: "BartenderBar",
   props: {
     name: {},
@@ -16,103 +16,108 @@ const T = /* @__PURE__ */ v({
     "before-close",
     "after-close"
   ],
-  setup(s, { emit: u }) {
-    const t = s, n = u, r = i("bartender-instance", c(null)), a = c(), o = f("el");
-    return p(() => {
-      if (!r.value) {
+  setup(n, { emit: u }) {
+    const t = n, a = u, o = c("bartender-instance", s(null)), r = s(), l = v("el");
+    return f(() => {
+      if (!o.value) {
         console.error("You must use Bartender plugin before adding bars.");
         return;
       }
-      if (o.value) {
+      if (l.value) {
         try {
-          a.value = r.value.addBar(t.name, {
-            el: o.value,
+          r.value = o.value.addBar(t.name, {
+            el: l.value,
             ...t
           });
         } catch (e) {
           console.error(e);
           return;
         }
-        o.value.addEventListener("bartender-bar-updated", (e) => {
-          n("bar-updated", e);
-        }), o.value?.addEventListener("bartender-bar-before-open", (e) => {
-          n("before-open", e);
-        }), o.value?.addEventListener("bartender-bar-after-open", (e) => {
-          n("after-open", e);
-        }), o.value?.addEventListener("bartender-bar-before-close", (e) => {
-          n("before-close", e);
-        }), o.value?.addEventListener("bartender-bar-after-close", (e) => {
-          n("after-close", e);
+        l.value.addEventListener("bartender-bar-updated", (e) => {
+          a("bar-updated", e);
+        }), l.value?.addEventListener("bartender-bar-before-open", (e) => {
+          a("before-open", e);
+        }), l.value?.addEventListener("bartender-bar-after-open", (e) => {
+          a("after-open", e);
+        }), l.value?.addEventListener("bartender-bar-before-close", (e) => {
+          a("before-close", e);
+        }), l.value?.addEventListener("bartender-bar-after-close", (e) => {
+          a("after-close", e);
         }), d(
           () => t.position,
           (e) => {
-            a.value && (a.value.position = e);
+            r.value && (r.value.position = e);
           }
         ), d(
           () => t.overlay,
           (e) => {
-            a.value && (a.value.overlay = e);
+            r.value && (r.value.overlay = e);
           }
         ), d(
           () => t.permanent,
           (e) => {
-            a.value && (a.value.permanent = e);
+            r.value && (r.value.permanent = e);
           }
         ), d(
           () => t.scrollTop,
           (e) => {
-            a.value && (a.value.scrollTop = e);
+            r.value && (r.value.scrollTop = e);
           }
         );
       }
-    }), b(() => {
-      !r.value || !r.value.getBar(t.name) || r.value.removeBar(t.name);
-    }), (e, L) => (m(), B("dialog", g({
+    }), p(() => {
+      !o.value || !o.value.getBar(t.name) || o.value.removeBar(t.name);
+    }), (e, y) => (b(), m("dialog", B({
       ref_key: "el",
-      ref: o,
+      ref: l,
       class: "bartender-bar"
     }, e.$attrs), [
-      E(e.$slots, "default")
+      g(e.$slots, "default")
     ], 16));
   }
-}), h = (s = {}) => {
-  const u = c(new y(s));
+}), T = (n = {}) => {
+  const u = s(new E(n));
   return {
     install(t) {
       t.provide("bartender-instance", u), t.directive("bartender-open", {
-        mounted(n, r) {
-          n.addEventListener("click", () => {
-            u.value.open(r.value);
+        mounted(a, o) {
+          a.addEventListener("click", () => {
+            u.value.open(o.value);
           });
         }
       }), t.directive("bartender-toggle", {
-        mounted(n, r) {
-          n.addEventListener("click", () => {
-            u.value.toggle(r.value);
+        mounted(a, o) {
+          a.addEventListener("click", () => {
+            u.value.toggle(o.value);
           });
         }
       }), t.directive("bartender-close", {
-        mounted(n, r) {
-          n.addEventListener("click", () => {
-            u.value.close(r.value);
+        mounted(a, o) {
+          a.addEventListener("click", () => {
+            u.value.close(o.value);
           });
         }
       });
     }
   };
-}, l = c(), w = () => ({ getBar: (r) => {
-  if (l.value)
-    return l.value.getBar(r);
-}, open: (r) => {
-  l.value && l.value.open(r);
-}, close: (r) => {
-  l.value && l.value.close(r);
-}, toggle: (r) => {
-  l.value && l.value.toggle(r);
-} });
+};
+s();
+const h = () => {
+  const n = c("bartender-instance", s(null));
+  return n.value || console.error("You must use Bartender plugin before calling useBartender()."), { getBar: (r) => {
+    if (n.value)
+      return n.value.getBar(r);
+  }, open: (r) => {
+    n.value && n.value.open(r);
+  }, close: (r) => {
+    n.value && n.value.close(r);
+  }, toggle: (r) => {
+    n.value && n.value.toggle(r);
+  } };
+};
 export {
-  T as BartenderBar,
-  h as createBartender,
-  w as useBartender
+  _ as BartenderBar,
+  T as createBartender,
+  h as useBartender
 };
 //# sourceMappingURL=VueBartender.js.map

@@ -1,4 +1,4 @@
-# Bartender.js for Vue.js
+# Bartender.js for Vue
 
 This package contains Vue 3 components for [Bartender.js](https://www.npmjs.com/package/@fokke-/bartender.js), providing an easy way to use the library in your Vue application.
 

@@ -1,60 +1,41 @@
 <template>
-  <template v-if="bartender && ready === true">
-    <Teleport :to="bartender.el">
-      <component
-        :is="props.is"
-        ref="el"
-        class="bartender__bar"
-        v-bind="$attrs"
-      >
-        <slot />
-      </component>
-    </Teleport>
-  </template>
+  <dialog ref="el" class="bartender-bar" v-bind="$attrs">
+    <slot />
+  </dialog>
 </template>
 
-<script lang="ts">
-
-export default { inheritAttrs: false }
-
-</script>
-
 <script setup lang="ts">
+import { type Ref, useTemplateRef, inject } from 'vue'
+import { type BartenderBarPosition, Bartender, BartenderBar } from '@fokke-/bartender.js'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 
-import type { Ref } from 'vue'
-import type {
-  BartenderBarMode,
-  BartenderBarPosition
-} from '@fokke-/bartender.js'
+const props = withDefaults(
+  defineProps<{
+    /** Unique bar name */
+    name: string
 
-import {
-  ref,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  watch
-} from 'vue'
-import { useBartender } from '../composables/bartender'
+    /** Position */
+    position?: BartenderBarPosition
 
-const props = withDefaults(defineProps<{
-  is?: string,
-  name: string,
-  position?: BartenderBarPosition,
-  mode?: BartenderBarMode,
-  overlay?: boolean,
-  permanent?: boolean,
-  scrollTop?: boolean,
-  focusTrap?: boolean,
-}>(), {
-  is: 'div',
-  position: 'left',
-  mode: 'float',
-  overlay: true,
-  permanent: false,
-  scrollTop: true,
-  focusTrap: false,
-})
+    /** Show bar overlay? */
+    overlay?: boolean
 
+    /** If enabled, the bar is not closable by clicking overlay of pressing esc key. */
+    permanent?: boolean
+
+    /** If enabled, bar will be scrolled to top when opening it. */
+    scrollTop?: boolean
+  }>(),
+  {
+    position: 'left',
+    mode: 'float',
+    overlay: true,
+    permanent: false,
+    scrollTop: true,
+  },
+)
+
+// TODO: type these
 const emit = defineEmits([
   'bar-updated',
   'before-open',
@@ -63,39 +44,22 @@ const emit = defineEmits([
   'after-close',
 ])
 
-const { bartender } = useBartender()
-const ready = ref(false)
-const el: Ref<HTMLBodyElement | HTMLElement | null> = ref(null)
-const bar = ref()
+const bartenderInstance = inject<Ref<Bartender | null>>('bartender-instance', ref(null))
+const barInstance = ref<BartenderBar>()
+const el = useTemplateRef<HTMLDialogElement>('el')
 
-onMounted(async () => {
-  // If Bartender is ready, initialize right away
-  if (bartender.value) {
-    init()
+onMounted(() => {
+  if (!bartenderInstance.value) {
+    console.error('You must use Bartender plugin before adding bars.')
     return
   }
 
-  // Init after Bartender is ready
-  window.addEventListener('bartender-init', init, { once: true })
-})
-
-onBeforeUnmount(() => {
-  if (!bartender.value || !bartender.value.getBar(props.name)) return
-
-  bartender.value.removeBar(props.name)
-})
-
-const init = async () => {
-  // Render element
-  ready.value = true
-
-  // Wait until component is rendered
-  await nextTick()
-
-  if (!bartender.value) return
+  if (!el.value) {
+    return
+  }
 
   try {
-    bar.value = bartender.value.addBar(props.name, {
+    barInstance.value = bartenderInstance.value.addBar(props.name, {
       el: el.value,
       ...props,
     })
@@ -104,20 +68,71 @@ const init = async () => {
     return
   }
 
-  // Update bar configuration when props change
-  watch(() => props.position, val => bar.value.position = val)
-  watch(() => props.mode, val => bar.value.mode = val)
-  watch(() => props.overlay, val => bar.value.overlay = !!val)
-  watch(() => props.permanent, val => bar.value.permanent = !!val)
-  watch(() => props.scrollTop, val => bar.value.scrollTop = !!val)
-  watch(() => props.focusTrap, val => bar.value.focusTrap = !!val)
-
   // Emit library events
-  el.value?.addEventListener('bartender-bar-updated', ((event: CustomEvent) => emit('bar-updated', event)) as EventListener)
-  el.value?.addEventListener('bartender-bar-before-open', ((event: CustomEvent) => emit('before-open', event)) as EventListener)
-  el.value?.addEventListener('bartender-bar-after-open', ((event: CustomEvent) => emit('after-open', event)) as EventListener)
-  el.value?.addEventListener('bartender-bar-before-close', ((event: CustomEvent) => emit('before-close', event)) as EventListener)
-  el.value?.addEventListener('bartender-bar-after-close', ((event: CustomEvent) => emit('after-close', event)) as EventListener)
-}
+  el.value.addEventListener('bartender-bar-updated', (event) => {
+    emit('bar-updated', event)
+  })
+  el.value?.addEventListener('bartender-bar-before-open', (event) => {
+    emit('before-open', event)
+  })
+  el.value?.addEventListener('bartender-bar-after-open', (event) => {
+    emit('after-open', event)
+  })
+  el.value?.addEventListener('bartender-bar-before-close', (event) => {
+    emit('before-close', event)
+  })
+  el.value?.addEventListener('bartender-bar-after-close', (event) => {
+    emit('after-close', event)
+  })
 
+  // Update bar configuration when props change
+  watch(
+    () => props.position,
+    (val) => {
+      if (!barInstance.value) {
+        return
+      }
+
+      barInstance.value.position = val
+    },
+  )
+  watch(
+    () => props.overlay,
+    (val) => {
+      if (!barInstance.value) {
+        return
+      }
+
+      barInstance.value.overlay = val
+    },
+  )
+  watch(
+    () => props.permanent,
+    (val) => {
+      if (!barInstance.value) {
+        return
+      }
+
+      barInstance.value.permanent = val
+    },
+  )
+  watch(
+    () => props.scrollTop,
+    (val) => {
+      if (!barInstance.value) {
+        return
+      }
+
+      barInstance.value.scrollTop = val
+    },
+  )
+})
+
+onBeforeUnmount(() => {
+  if (!bartenderInstance.value || !bartenderInstance.value.getBar(props.name)) {
+    return
+  }
+
+  bartenderInstance.value.removeBar(props.name)
+})
 </script>

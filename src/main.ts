@@ -1,8 +1,5 @@
 import { createApp } from 'vue'
-import {
-  createRouter,
-  createWebHistory
-} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import { createBartender } from './plugins/bartenderPlugin'
 import Home from './views/Home.vue'
@@ -26,9 +23,6 @@ const router = createRouter({
   ],
 })
 
-const bartender = createBartender()
+const bartender = createBartender({ debug: false })
 
-app
-  .use(router)
-  .use(bartender)
-  .mount('#app')
+app.use(router).use(bartender).mount('#app')

@@ -1,36 +1,26 @@
 <template>
-  <component
-    ref="el"
-    :is="props.is"
-    class="bartender"
-  >
+  <component ref="el" :is="props.is" class="bartender">
     <slot />
   </component>
 </template>
 
 <script setup lang="ts">
-
 import type { Ref } from 'vue'
-import {
-  ref,
-  watch,
-  onMounted,
-  onBeforeUnmount
-} from 'vue'
-import {
-  createInstance,
-  useBartender
-} from '../composables/bartender.js'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { createInstance, useBartender } from '../composables/bartender.js'
 
-const props = withDefaults(defineProps<{
-  is?: string,
-  debug?: boolean,
-  switchTimeout?: number,
-}>(), {
-  is: 'div',
-  debug: undefined,
-  switchTimeout: undefined,
-})
+const props = withDefaults(
+  defineProps<{
+    is?: string
+    debug?: boolean
+    switchTimeout?: number
+  }>(),
+  {
+    is: 'div',
+    debug: undefined,
+    switchTimeout: undefined,
+  },
+)
 
 const emit = defineEmits([
   'init',
@@ -52,15 +42,45 @@ onMounted(() => {
     if (!el.value) return
 
     // Emit library events
-    el.value.addEventListener('bartender-init', ((event: CustomEvent) => emit('init', event)) as EventListener)
-    el.value.addEventListener('bartender-destroyed', ((event: CustomEvent) => emit('destroyed', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-added', ((event: CustomEvent) => emit('bar-added', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-removed', ((event: CustomEvent) => emit('bar-removed', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-updated', ((event: CustomEvent) => emit('bar-updated', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-before-open', ((event: CustomEvent) => emit('before-open', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-after-open', ((event: CustomEvent) => emit('after-open', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-before-close', ((event: CustomEvent) => emit('before-close', event)) as EventListener)
-    el.value.addEventListener('bartender-bar-after-close', ((event: CustomEvent) => emit('after-close', event)) as EventListener)
+    el.value.addEventListener('bartender-init', (event) => {
+      emit('init', event)
+    })
+
+    el.value.addEventListener('bartender-destroyed', (event) => {
+      emit('destroyed', event)
+    })
+
+    el.value.addEventListener('bartender-destroyed', (event) => {
+      emit('destroyed', event)
+    })
+
+    el.value.addEventListener('bartender-bar-added', (event) => {
+      emit('bar-added', event)
+    })
+
+    el.value.addEventListener('bartender-bar-removed', (event) => {
+      emit('bar-removed', event)
+    })
+
+    el.value.addEventListener('bartender-bar-updated', (event) => {
+      emit('bar-updated', event)
+    })
+
+    el.value.addEventListener('bartender-bar-before-open', (event) => {
+      emit('before-open', event)
+    })
+
+    el.value.addEventListener('bartender-bar-after-open', (event) => {
+      emit('after-open', event)
+    })
+
+    el.value.addEventListener('bartender-bar-before-close', (event) => {
+      emit('before-close', event)
+    })
+
+    el.value.addEventListener('bartender-bar-after-close', (event) => {
+      emit('after-close', event)
+    })
 
     createInstance({
       debug: props.debug,
@@ -72,20 +92,25 @@ onMounted(() => {
     console.error(error)
   }
 
-  watch(() => props.debug, val => {
-    if (!bartender.value) return
-    bartender.value.debug = !!val
-  })
+  watch(
+    () => props.debug,
+    (val) => {
+      if (!bartender.value) return
+      bartender.value.debug = !!val
+    },
+  )
 
-  watch(() => props.switchTimeout, val => {
-    if (!bartender.value || !val) return
-    bartender.value.switchTimeout = val
-  })
+  watch(
+    () => props.switchTimeout,
+    (val) => {
+      if (!bartender.value || !val) return
+      bartender.value.switchTimeout = val
+    },
+  )
 })
 
-onBeforeUnmount(async () => {
+onBeforeUnmount(() => {
   if (!bartender.value) return
   bartender.value.destroy()
 })
-
 </script>

@@ -1,6 +1,6 @@
 import type { BartenderBarOptions } from '@fokke-/bartender.js'
 
 export interface Bar {
-  name: string,
-  options: BartenderBarOptions,
+  name: string
+  options: BartenderBarOptions
 }

@@ -26,10 +26,6 @@ export const barModes = [
     label: 'Push',
     value: 'push',
   },
-  {
-    label: 'Reveal',
-    value: 'reveal',
-  },
 ]
 
 export const barSettings = [
@@ -44,9 +40,5 @@ export const barSettings = [
   {
     label: 'Scroll to top after opening',
     value: 'scrollTop',
-  },
-  {
-    label: 'Focus trap',
-    value: 'focusTrap',
   },
 ]

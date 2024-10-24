@@ -9,28 +9,23 @@ import { resolve } from 'path'
 export default defineConfig({
   define: { 'process.env': {} },
   build: {
-    target: 'es2015',
+    target: 'esnext',
     sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueBartender',
       fileName: 'VueBartender',
-      formats: [
-        'es',
-      ],
+      formats: ['es'],
     },
     rollupOptions: {
-      external: [
-        'vue',
-        '@fokke-/bartender.js',
-      ],
+      external: ['vue', '@fokke-/bartender.js'],
     },
   },
   plugins: [
     eslint({ fix: false }),
     vue(),
     dts({
-      skipDiagnostics: false,
+      rollupTypes: true,
       copyDtsFiles: true,
     }),
   ],

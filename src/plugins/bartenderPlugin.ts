@@ -1,42 +1,40 @@
-import type {
-  App,
-  DirectiveBinding,
-  Plugin
-} from 'vue'
-import { useBartender } from '../composables/bartender'
+import { type App, type DirectiveBinding, type Plugin, ref } from 'vue'
+import { type BartenderOptions, Bartender } from '@fokke-/bartender.js'
 
-export const createBartender = (): Plugin => {
-  const { bartender } = useBartender()
+export const createBartender = (options: BartenderOptions = {}): Plugin => {
+  const instance = ref<Bartender>(new Bartender(options))
 
   return {
-    install (app: App) {
+    install(app: App) {
+      // Provide Bartender instance
+      app.provide('bartender-instance', instance)
+
       // Directive for opening bar
       app.directive('bartender-open', {
-        mounted (el: HTMLElement, binding: DirectiveBinding) {
+        mounted(el: HTMLElement, binding: DirectiveBinding) {
           el.addEventListener('click', () => {
-            bartender.value?.open(binding.value, el)
+            instance.value.open(binding.value)
           })
         },
       })
 
       // Directive for toggling bar
       app.directive('bartender-toggle', {
-        mounted (el: HTMLElement, binding: DirectiveBinding) {
+        mounted(el: HTMLElement, binding: DirectiveBinding) {
           el.addEventListener('click', () => {
-            bartender.value?.toggle(binding.value, el)
+            instance.value.toggle(binding.value)
           })
         },
       })
 
       // Directive for closing bar
       app.directive('bartender-close', {
-        mounted (el: HTMLElement, binding: DirectiveBinding) {
+        mounted(el: HTMLElement, binding: DirectiveBinding) {
           el.addEventListener('click', () => {
-            bartender.value?.close(binding.value)
+            instance.value.close(binding.value)
           })
         },
       })
     },
   }
 }
-

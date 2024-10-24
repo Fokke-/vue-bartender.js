@@ -1,163 +1,118 @@
-
 <template>
-  <Bartender v-bind="config">
-    <BartenderContent>
-      <div class="block">
-        <h1>vue-bartender.js</h1>
-      </div>
-      <div class="block">
-        <h2>Routes</h2>
+  <div class="block">
+    <h1>vue-bartender.js</h1>
+  </div>
+  <div class="block">
+    <h2>Routes</h2>
 
-        <nav v-if="router.options.routes.length">
-          <ul
-            v-for="item of router.options.routes"
-            :key="item.name"
-          >
-            <li>
-              <router-link :to="item">
-                {{ item.name }}
-              </router-link>
-            </li>
-          </ul>
-        </nav>
+    <nav v-if="router.options.routes.length">
+      <ul v-for="item of router.options.routes" :key="item.name">
+        <li>
+          <router-link :to="item">
+            {{ item.name }}
+          </router-link>
+        </li>
+      </ul>
+    </nav>
 
-        <router-view />
-      </div>
-      <div class="block">
-        <div class="columnContainer">
-          <div class="column">
-            <div class="box">
-              <h2>Main configuration</h2>
-              <div class="field">
-                <div class="checkbox">
-                  <input
-                    class="checkbox__input"
-                    v-model="config.debug"
-                    type="checkbox"
-                    name="debug"
-                    id="debug"
-                  >
-                  <label
-                    class="checkbox__label"
-                    for="debug"
-                  >
-                    Debug mode
-                  </label>
-                </div>
-              </div>
-              <div class="field">
-                <label
-                  for="switchTimeout"
-                  class="label"
-                >
-                  Switch timeout
-                </label>
-                <div class="field__content">
-                  <input
-                    v-model="config.switchTimeout"
-                    id="switchTimeout"
-                    type="number"
-                  >
-                </div>
-              </div>
+    <router-view />
+  </div>
+  <div class="block">
+    <div class="columnContainer">
+      <div class="column">
+        <div class="box">
+          <h2>Main configuration</h2>
+          <div class="field">
+            <div class="checkbox">
+              <input
+                class="checkbox__input"
+                v-model="config.debug"
+                type="checkbox"
+                name="debug"
+                id="debug"
+              />
+              <label class="checkbox__label" for="debug"> Debug mode </label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="switchTimeout" class="label"> Switch timeout </label>
+            <div class="field__content">
+              <input v-model="config.switchTimeout" id="switchTimeout" type="number" />
             </div>
           </div>
         </div>
       </div>
-      <div class="block">
-        <div class="columnContainer">
-          <div class="column">
-            <div class="block">
-              <div class="box">
-                <h2>Create a new bar</h2>
-                <BarConfig
-                  v-model:name="newBarName"
-                  v-model:options="newBarOptions"
-                  @submit="barFormSubmit"
-                />
-              </div>
-            </div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="columnContainer">
+      <div class="column">
+        <div class="block">
+          <div class="box">
+            <h2>Create a new bar</h2>
+            <BarConfig
+              v-model:name="newBarName"
+              v-model:options="newBarOptions"
+              @submit="barFormSubmit"
+            />
           </div>
-          <div class="column">
-            <div class="block">
-              <div class="box">
-                <h2>Current bars</h2>
-                <div class="buttons">
-                  <button
-                    v-for="item of bars"
-                    :key="`bar-${item.name}`"
-                    type="button"
-                    :class="[
-                      'button',
-                      `button--${item.name}`
-                    ]"
-                    v-bartender-toggle="item.name"
-                  >
-                    <span class="sr-only">Toggle</span> {{ item.name }}
-                  </button>
-                </div>
-              </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="block">
+          <div class="box">
+            <h2>Current bars</h2>
+            <div class="buttons">
+              <button
+                v-for="item of bars"
+                :key="`bar-${item.name}`"
+                type="button"
+                :class="['button', `button--${item.name}`]"
+                v-bartender-toggle="item.name"
+              >
+                <span class="sr-only">Toggle</span> {{ item.name }}
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </BartenderContent>
+    </div>
+  </div>
 
-    <BartenderBar
-      v-for="bar of bars"
-      :key="bar.name"
-      :name="bar.name"
-      :position="bar.options.position"
-      :mode="bar.options.mode"
-      :overlay="bar.options.overlay"
-      :permanent="bar.options.permanent"
-      :scroll-top="bar.options.scrollTop"
-      :focus-trap="bar.options.focusTrap"
-    >
-      <div class="block">
-        <h2>Bar '{{ bar.name }}'</h2>
-        <BarConfig
-          v-model:name="bar.name"
-          v-model:options="bar.options"
-          edit-mode
-        />
+  <BartenderBar
+    v-for="bar of bars"
+    :key="bar.name"
+    :name="bar.name"
+    :position="bar.options.position"
+    :overlay="bar.options.overlay"
+    :permanent="bar.options.permanent"
+    :scroll-top="bar.options.scrollTop"
+  >
+    <div class="block">
+      <h2>Bar '{{ bar.name }}'</h2>
+      <BarConfig v-model:name="bar.name" v-model:options="bar.options" edit-mode />
+    </div>
+    <div class="block">
+      <h2>Switch to another bar?</h2>
+      <div class="buttons">
+        <template v-for="item of bars" :key="item.name">
+          <button v-if="item.name !== bar.name" type="button" v-bartender-toggle="item.name">
+            <span class="sr-only">Toggle</span> {{ item.name }}
+          </button>
+        </template>
       </div>
-      <div class="block">
-        <h2>Switch to another bar?</h2>
-        <div class="buttons">
-          <template
-            v-for="item of bars"
-            :key="item.name"
-          >
-            <button
-              v-if="item.name !== bar.name"
-              type="button"
-              v-bartender-toggle="item.name"
-            >
-              <span class="sr-only">Toggle</span> {{ item.name }}
-            </button>
-          </template>
-        </div>
-      </div>
-    </BartenderBar>
-  </Bartender>
+    </div>
+  </BartenderBar>
 </template>
 
 <script setup lang="ts">
-
 import type { Ref } from 'vue'
 import type { Bar } from './types.d'
-import type {
-  BartenderOptions,
-  BartenderBarMode,
-  BartenderBarPosition
-} from '@fokke-/bartender.js'
-import {
-  nextTick, onMounted, ref
-} from 'vue'
+import type { BartenderOptions, BartenderBarPosition } from '@fokke-/bartender.js'
+import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Bartender from './components/Bartender.vue'
-import BartenderContent from './components/BartenderContent.vue'
+// import Bartender from './components/Bartender.vue'
+// import BartenderContent from './components/BartenderContent.vue'
 import BartenderBar from './components/BartenderBar.vue'
 import BarConfig from './components/BarConfig.vue'
 
@@ -171,18 +126,17 @@ const config: Ref<BartenderOptions> = ref({
 const newBarName = ref('')
 const newBarOptionsDefaults = {
   position: 'left' as BartenderBarPosition,
-  mode: 'float' as BartenderBarMode,
   overlay: true,
   permanent: false,
   scrollTop: true,
-  focusTrap: true,
 }
 const newBarOptions = ref({ ...newBarOptionsDefaults })
 
 const createBar = (name: string, options = {}): Promise<void> => {
   return new Promise((resolve) => {
     if (!name) throw new Error('Bar name is required.')
-    if (bars.value.some(item => item.name == name)) throw new Error(`Bar with name ${name} already exists.`)
+    if (bars.value.some((item) => item.name == name))
+      throw new Error(`Bar with name ${name} already exists.`)
 
     bars.value.push({
       name,
@@ -210,21 +164,18 @@ const barFormSubmit = async () => {
   }
 }
 
-onMounted(async () => {
+onMounted(() => {
   createBar('First', {
     ...newBarOptionsDefaults,
-    mode: 'push',
   })
   createBar('Second', {
     ...newBarOptionsDefaults,
     position: 'right',
   })
 })
-
 </script>
 
 <style lang="scss">
-
 @import 'modern-normalize/modern-normalize.css';
 @import '@fokke-/bartender.js/dist/bartender.scss';
 @import './assets/utils';
@@ -272,5 +223,4 @@ body {
     flex: 0 0 50%;
   }
 }
-
 </style>

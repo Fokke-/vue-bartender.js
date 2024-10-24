@@ -1,15 +1,7 @@
 <template>
   <form @submit.prevent="barFormSubmit">
-    <div
-      v-if="props.editMode === false"
-      class="field"
-    >
-      <label
-        :for="`${barName}-name`"
-        class="label"
-      >
-        Name
-      </label>
+    <div v-if="props.editMode === false" class="field">
+      <label :for="`${barName}-name`" class="label"> Name </label>
       <div class="field__content">
         <input
           v-model="nameValue"
@@ -17,21 +9,15 @@
           type="text"
           required
           pattern="[a-zA-Z]+"
-        >
-        <p class="field__description">
-          Letters only!
-        </p>
+        />
+        <p class="field__description">Letters only!</p>
       </div>
     </div>
     <fieldset>
       <legend>Position</legend>
       <div>
         <div class="field">
-          <div
-            v-for="item of barPositions"
-            :key="item.value"
-            class="radio"
-          >
+          <div v-for="item of barPositions" :key="item.value" class="radio">
             <input
               class="radio__input"
               v-model="optionsValue.position"
@@ -39,38 +25,8 @@
               name="position"
               :value="item.value"
               :id="`${barName}-position-${item.value}`"
-            >
-            <label
-              class="radio__label"
-              :for="`${barName}-position-${item.value}`"
-            >
-              {{ item.label }}
-            </label>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Mode</legend>
-      <div>
-        <div class="field">
-          <div
-            v-for="item of barModes"
-            :key="item.value"
-            class="radio"
-          >
-            <input
-              class="radio__input"
-              v-model="optionsValue.mode"
-              type="radio"
-              name="mode"
-              :value="item.value"
-              :id="`${barName}-mode-${item.value}`"
-            >
-            <label
-              class="radio__label"
-              :for="`${barName}-mode-${item.value}`"
-            >
+            />
+            <label class="radio__label" :for="`${barName}-position-${item.value}`">
               {{ item.label }}
             </label>
           </div>
@@ -81,22 +37,15 @@
       <legend>Settings</legend>
       <div>
         <div class="field">
-          <div
-            v-for="item of barSettings"
-            :key="item.value"
-            class="checkbox"
-          >
+          <div v-for="item of barSettings" :key="item.value" class="checkbox">
             <input
               class="checkbox__input"
               v-model="optionsValue[item.value as keyof typeof optionsValue]"
               type="checkbox"
               name="settings"
               :id="`${barName}-setting-${item.value}`"
-            >
-            <label
-              class="checkbox__label"
-              :for="`${barName}-setting-${item.value}`"
-            >
+            />
+            <label class="checkbox__label" :for="`${barName}-setting-${item.value}`">
               {{ item.label }}
             </label>
           </div>
@@ -104,59 +53,48 @@
       </div>
     </fieldset>
     <div class="buttons">
-      <button
-        v-if="props.editMode === false"
-        type="submit"
-      >
-        Create
-      </button>
+      <button v-if="props.editMode === false" type="submit">Create</button>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
-
 import type { BartenderBarOptions } from '@fokke-/bartender.js'
 import { computed } from 'vue'
 
-import {
-  barPositions,
-  barModes,
-  barSettings
-} from '../utils'
+import { barPositions, barSettings } from '../utils'
 
-const props = withDefaults(defineProps<{
-  name?: string,
-  options?: BartenderBarOptions,
-  editMode?: boolean,
-}>(), {
-  name: '',
-  options: () => {
-    return {}
+const props = withDefaults(
+  defineProps<{
+    name?: string
+    options?: BartenderBarOptions
+    editMode?: boolean
+  }>(),
+  {
+    name: '',
+    options: () => {
+      return {}
+    },
+    editMode: false,
   },
-  editMode: false,
-})
+)
 
-const emit = defineEmits([
-  'update:name',
-  'update:options',
-  'submit',
-])
+const emit = defineEmits(['update:name', 'update:options', 'submit'])
 
 const nameValue = computed({
-  get () {
+  get() {
     return props.name
   },
-  set (value) {
+  set(value) {
     emit('update:name', value)
   },
 })
 
 const optionsValue = computed({
-  get () {
+  get() {
     return props.options
   },
-  set (value) {
+  set(value) {
     emit('update:options', value)
   },
 })
@@ -170,5 +108,4 @@ const barFormSubmit = () => {
 
   emit('submit')
 }
-
 </script>

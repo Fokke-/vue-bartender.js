@@ -62,8 +62,6 @@
 import type { BartenderBarOptions } from '@fokke-/bartender.js'
 import { computed } from 'vue'
 
-import { barPositions, barSettings } from '../utils'
-
 const props = withDefaults(
   defineProps<{
     name?: string
@@ -80,6 +78,40 @@ const props = withDefaults(
 )
 
 const emit = defineEmits(['update:name', 'update:options', 'submit'])
+
+const barPositions = [
+  {
+    label: 'Left',
+    value: 'left',
+  },
+  {
+    label: 'Right',
+    value: 'right',
+  },
+  {
+    label: 'Top',
+    value: 'top',
+  },
+  {
+    label: 'Bottom',
+    value: 'bottom',
+  },
+]
+
+const barSettings = [
+  {
+    label: 'Overlay',
+    value: 'overlay',
+  },
+  {
+    label: 'Permanent',
+    value: 'permanent',
+  },
+  {
+    label: 'Scroll to top after opening',
+    value: 'scrollTop',
+  },
+]
 
 const nameValue = computed({
   get() {

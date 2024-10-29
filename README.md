@@ -1,12 +1,10 @@
-# Bartender.js for Vue
+# Bartender.js plugin for Vue 3
 
-This package contains Vue 3 components for [Bartender.js](https://www.npmjs.com/package/@fokke-/bartender.js), providing an easy way to use the library in your Vue application.
-
-Bars will be teleported as direct children of the main component, so you can define your bars per router view, for example.
+This package contains Vue 3 plugin and components for [Bartender.js](https://www.npmjs.com/package/@fokke-/bartender.js), providing an easy way to use the library in your Vue application.
 
 ## Requirements
 
-- Vue >=3.2.0
+- Vue >=3.5.0
 
 ## Installation
 
@@ -18,203 +16,95 @@ npm i @fokke-/vue-bartender.js
 
 ### Enable plugin
 
-Plugin provides directives for opening, toggling and closing bars.
+Pass [main options](https://github.com/Fokke-/bartender.js/tree/master?tab=readme-ov-file#interface-bartenderoptions) and [default options for new bars](https://github.com/Fokke-/bartender.js/tree/master?tab=readme-ov-file#interface-bartenderbardefaultoptions)
+as arguments to the `createBartender()` function.
 
 ```js
 import { createBartender } from '@fokke-/vue-bartender.js'
 
-const bartender = createBartender()
+const bartender = createBartender(
+  {
+    // Main options
+  },
+  {
+    // Default options for new bars
+  },
+)
 
 app.use(bartender)
 ```
 
 ### Markup
 
-Note that it's highly recommended to define the following viewport meta tag to avoid quirks when using bars with `push` or `reveal` modes.
-
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-```
-
-#### Example markup
-
-```html
-<!-- e.g. App.vue -->
 <template>
-  <!-- Main wrap for bartender -->
-  <Bartender>
-    <!-- Wrap for page content -->
-    <BartenderContent>
-      <button v-bartender-open="'mobileNav'">Open mobile navigation</button>
-    </BartenderContent>
+  <button v-bartender-open="'mobileNav'">Open mobile navigation</button>
 
-    <!-- Add any number of bars -->
-    <BartenderBar
-      name="mobileNav"
-      position="left"
-      mode="float"
-    >
-      <button v-bartender-close>Close mobile navigation</button>
-    </BartenderBar>
-
-    <!-- Place your fixed positioned elements here -->
-  </Bartender>
+  <!-- Add any number of bars -->
+  <BartenderBar name="mobileNav" position="left">
+    <button v-bartender-close>Close mobile navigation</button>
+  </BartenderBar>
 </template>
 
 <script setup>
-
-import {
-  Bartender,
-  BartenderContent,
-  BartenderBar
-} from '@fokke-/vue-bartender.js'
-
+  import { BartenderBar } from '@fokke-/vue-bartender.js'
 </script>
 
-<style lang="scss">
+<style lang="css">
 
-@import '@fokke-/bartender.js/dist/bartender.scss';
+  @import '@fokke-/bartender.js/dist/bartender.css';
 
+  // ...or if you want to use scss
+  // @import '@fokke-/bartender.js/dist/bartender.scss';
 </style>
 ```
 
 ## Components
 
-Use component props to define options.
-
-### \<Bartender\>
-
-#### Props
-
-##### is
-
-Type: `string`, Default: `div`
-
-HTML tag for main wrap.
-
-##### debug
-
-Type: `boolean`, Default: `false`
-
-If enabled, Bartender will log it's activity to console. Note that these messages will be outputted at debug log level and you need to configure your console to show these messages.
-
-##### switch-timeout
-
-Type: `number` (milliseconds), Default: `150`
-
-If bar is opened when there's already another active bar, the open bar will be closed and the library will pause for the given time before opening the another bar.
-
-#### Emits
-
-##### init
-
-Bartender has been initialized.
-
-##### destroyed
-
-Bartender has been destroyed.
-
-##### bar-added
-
-Bar has been added.
-
-##### bar-removed
-
-Bar has been removed.
-
-##### bar-updated
-
-Bar property has been updated.
-
-##### before-open
-
-Bar has started to open.
-
-##### after-open
-
-Bar is open.
-
-##### before-close
-
-Bar has started to close.
-
-##### after-close
-
-Bar is closed.
-
-### \<BartenderContent\>
-
-#### Props
-
-##### is
-
-Type: `string`, Default: `div`
-
-HTML tag for content wrap.
-
 ### \<BartenderBar\>
 
 #### Props
 
-##### is
+All [bar options](https://github.com/Fokke-/bartender.js/tree/master?tab=readme-ov-file#interface-bartenderbardefaultoptions) can be defined as props.
 
-Type: `string`, Default: `div`
+```html
+<BartenderBar
+  name="mobileNav"
+  position="left"
+  :overlay="true"
+  :permanent="false"
+  :scrollTop="true"
+>
+  <p>Hello world!</p>
+</BartenderBar>
+```
 
-HTML tag for bar.
+#### Emits
 
-##### name
+All bar events are emitted.
 
-Type: `string`
+| Event        | Value              |
+| ------------ | ------------------ |
+| updated      | event: CustomEvent |
+| before-open  | event: CustomEvent |
+| after-open   | event: CustomEvent |
+| before-close | event: CustomEvent |
+| after-close  | event: CustomEvent |
 
-Unique name for the bar.
-
-##### position
-
-Type: `string`, Default: `left`
-
-Bar position as string. Possible values are `'left'`, `'right'`, `'top'` and `'bottom'`.
-
-##### mode
-
-Type: `string`, Default: `'float'`
-
-Bar mode as string. Possible values are:
-
-- `float` - The bar will slide in and float over the content.
-- `push` - The bar will slide in, and the content wrap will be pushed away from the bar.
-- `reveal` - Content wrap will be pushed away, revealing the bar underneath
-
-##### overlay
-
-Type: `boolean`, Default: `true`
-
-Show shading overlay over content wrap when bar is open. If disabled, overlay element will still be rendered, but it will be transparent.
-
-##### permanent
-
-Type: `boolean`, Default: `false`
-
-If enabled, the bar is not closable by clicking overlay of pressing `esc` key.
-
-**IMPORTANT:** If you enable this, remember to provide a way to close the bar.
-
-##### scroll-top
-
-Type: `boolean`, Default: `true`
-
-If enabled, bar will be scrolled to top when opening it.
-
-##### focus-trap
-
-Type: `boolean`, Default: `false`
-
-If enabled, keyboard focus will be trapped to the currently open bar.
-
-**IMPORTANT:** If you enable this, you **must** provide a way to close the bar with keyboard. Even though by default `esc` key closes the bar, adding a dedicated close button to the bar is highly recommended.
+```html
+<BartenderBar
+  name="mobileNav"
+  @updated="(event) => console.log(event)"
+  @before-open="(event) => console.log(event)"
+  @after-open="(event) => console.log(event)"
+  @before-close="(event) => console.log(event)"
+  @after-close="(event) => console.log(event)"
+>
+  <p>Hello world!</p>
+</BartenderBar>
+```
 
 ## Directives
-
-The plugin will install the following global directives.
 
 ### v-bartender-open
 
@@ -234,7 +124,7 @@ Toggle bar open/closed state.
 
 ### v-bartender-close
 
-Close bar by name. If name is undefined, any open bar will be closed.
+Close bar by name. If name is undefined, the topmost bar will be closed.
 
 ```html
 <!-- Close mobile navigation -->
@@ -251,5 +141,5 @@ If you need to access main instance, you can use `useBartender` function to retr
 ```javascript
 import { useBartender } from '@fokke-/vue-bartender.js'
 
-const { bartender } = useBartender()
+const bartender = useBartender()
 ```

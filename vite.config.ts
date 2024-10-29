@@ -1,5 +1,5 @@
+import eslint from '@nabla/vite-plugin-eslint'
 import vue from '@vitejs/plugin-vue'
-import eslint from 'vite-plugin-eslint'
 import dts from 'vite-plugin-dts'
 
 import { defineConfig } from 'vite'
@@ -14,7 +14,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueBartender',
-      fileName: 'VueBartender',
+      fileName: 'vue-bartender',
       formats: ['es'],
     },
     rollupOptions: {
@@ -22,11 +22,23 @@ export default defineConfig({
     },
   },
   plugins: [
-    eslint({ fix: false }),
+    eslint({
+      eslintOptions: {
+        fix: false,
+      },
+    }),
     vue(),
     dts({
+      tsconfigPath: './tsconfig.app.json',
       rollupTypes: true,
       copyDtsFiles: true,
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
+  },
 })

@@ -1,7 +1,7 @@
 {
   "name": "@fokke-/vue-bartender.js",
   "version": "1.0.0",
-  "description": "Vue components for Bartender.js",
+  "description": "Bartender.js plugin for Vue 3",
   "author": "Ville Fokke Saarivaara",
   "license": "MIT",
   "private": false,
@@ -20,10 +20,7 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview",
-    "type-check": "vue-tsc --build --force",
-    "lint": "eslint ./src",
-    "format": "prettier --write src/"
+    "lint": "eslint ./src"
   },
   "files": [
     "LICENSE",
@@ -31,38 +28,32 @@
     "dist"
   ],
   "types": "./dist/index.d.ts",
-  "module": "./dist/VueBartender.js",
+  "module": "./dist/vue-bartender.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/VueBartender.js"
+      "import": "./dist/vue-bartender.js"
     }
   },
   "dependencies": {
-    "@fokke-/bartender.js": "3.0.0-beta.7"
+    "@fokke-/bartender.js": "3.0.0-beta.9"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "1.10.4",
-    "@tsconfig/node20": "20.1.4",
-    "@types/node": "22.7.6",
-    "@typescript-eslint/eslint-plugin": "8.9.0",
+    "@nabla/vite-plugin-eslint": "2.0.4",
+    "@tsconfig/node22": "22.0.0",
+    "@types/node": "22.8.2",
     "@vitejs/plugin-vue": "5.1.4",
-    "@vue/eslint-config-prettier": "10.0.0",
-    "@vue/eslint-config-typescript": "14.1.1",
     "@vue/tsconfig": "0.5.1",
-    "@vue/typescript-plugin": "2.1.6",
-    "eslint": "9.12.0",
+    "@vue/typescript-plugin": "^2.1.8",
     "modern-normalize": "3.0.1",
-    "prettier": "3.3.3",
-    "sass": "1.80.2",
+    "sass": "1.80.4",
     "typescript": "5.4.2",
-    "typescript-eslint": "8.10.0",
-    "vite": "5.4.9",
-    "vite-plugin-dts": "4.2.4",
-    "vite-plugin-eslint": "1.8.1",
+    "typescript-eslint": "8.12.1",
+    "vite": "5.4.10",
+    "vite-plugin-dts": "4.3.0",
     "vue": "3.5.12",
     "vue-router": "4.4.5",
-    "vue-tsc": "2.1.6"
+    "vue-tsc": "2.1.8"
   },
   "peerDependencies": {
     "vue": "^3.5.0"

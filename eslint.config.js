@@ -7,20 +7,17 @@ import pluginVue from 'eslint-plugin-vue'
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  // @ts-expect-error - Seems to work anyway
   ...pluginVue.configs['flat/recommended'],
   {
     plugins: {
       'typescript-eslint': tseslint.plugin,
     },
+    files: ['*.vue', '**/*.vue'],
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
         extraFileExtensions: ['.vue'],
         sourceType: 'module',
-      },
-      globals: {
-        google: 'readonly',
       },
     },
     rules: {

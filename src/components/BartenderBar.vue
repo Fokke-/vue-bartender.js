@@ -86,7 +86,7 @@ onMounted(() => {
   watch(
     () => props.position,
     (val) => {
-      if (!bar.value) {
+      if (!bar.value || typeof val === 'undefined') {
         return
       }
 
@@ -96,7 +96,7 @@ onMounted(() => {
   watch(
     () => props.overlay,
     (val) => {
-      if (!bar.value) {
+      if (!bar.value || typeof val === 'undefined') {
         return
       }
 
@@ -106,7 +106,7 @@ onMounted(() => {
   watch(
     () => props.permanent,
     (val) => {
-      if (!bar.value) {
+      if (!bar.value || typeof val === 'undefined') {
         return
       }
 
@@ -116,7 +116,7 @@ onMounted(() => {
   watch(
     () => props.scrollTop,
     (val) => {
-      if (!bar.value) {
+      if (!bar.value || typeof val === 'undefined') {
         return
       }
 

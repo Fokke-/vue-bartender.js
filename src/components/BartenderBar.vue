@@ -5,6 +5,9 @@
 </template>
 
 <script setup lang="ts">
+// TODO: expose close?
+// TODO: expose focus?
+// TODO: bind methods to slot?
 import { useTemplateRef } from 'vue'
 import {
   type BartenderBarDefaultOptions,

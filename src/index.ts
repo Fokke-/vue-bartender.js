@@ -15,8 +15,6 @@ const createBartender = (
   options: BartenderOptions = {},
   barDefaultOptions: BartenderBarDefaultOptions = {},
 ): Plugin => {
-  console.log(options, barDefaultOptions)
-
   // Create a new instance
   bartender = new Bartender(options, barDefaultOptions)
 
@@ -52,8 +50,6 @@ const createBartender = (
       // Directive for closing bar
       app.directive('bartender-close', {
         mounted(el: HTMLElement, binding: DirectiveBinding) {
-          console.log('BINDING', binding)
-
           el.addEventListener('click', () => {
             bartender?.close(binding.value)
           })

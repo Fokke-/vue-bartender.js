@@ -84,8 +84,6 @@ All [bar options](https://github.com/Fokke-/bartender.js/tree/master?tab=readme-
 
 #### Emits
 
-All bar events are emitted.
-
 | Event        | Value              |
 | ------------ | ------------------ |
 | updated      | event: CustomEvent |

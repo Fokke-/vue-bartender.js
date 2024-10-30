@@ -1,4 +1,5 @@
 import { Bartender } from '@fokke-/bartender.js';
+import { BartenderBar as BartenderBar_2 } from '@fokke-/bartender.js';
 import { BartenderBarDefaultOptions } from '@fokke-/bartender.js';
 import { BartenderBarPosition } from '@fokke-/bartender.js';
 import { BartenderOptions } from '@fokke-/bartender.js';
@@ -19,7 +20,12 @@ declare interface BarComponentProps extends BartenderBarDefaultOptions {
     name: string;
 }
 
-export declare const BartenderBar: __VLS_WithTemplateSlots<DefineComponent<BarComponentProps, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
+export declare const BartenderBar: __VLS_WithTemplateSlots<DefineComponent<BarComponentProps, {
+/** Close this bar */
+close: () => Promise<BartenderBar_2 | null> | undefined;
+/** Focus to the bar */
+focus: () => void;
+}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
 updated: (event: CustomEvent<any>) => any;
 "before-open": (event: CustomEvent<any>) => any;
 "after-open": (event: CustomEvent<any>) => any;
@@ -33,11 +39,32 @@ onUpdated?: ((event: CustomEvent<any>) => any) | undefined;
 "onAfter-close"?: ((event: CustomEvent<any>) => any) | undefined;
 }>, {
 position: BartenderBarPosition;
+modal: boolean;
 overlay: boolean;
 permanent: boolean;
 scrollTop: boolean;
-}, {}, {}, {}, string, ComponentProvideOptions, false, {}, any>, {
-    default?(_: {}): any;
+}, {}, {}, {}, string, ComponentProvideOptions, false, {}, any>, Readonly<{
+    default(props: {
+        /** Open another bar */
+        open: (bar: string | BartenderBar_2, keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2> | undefined;
+        /** Toggle another bar */
+        toggle: (bar: string | BartenderBar_2, keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2 | null> | undefined;
+        /** Close this bar */
+        close: () => Promise<BartenderBar_2 | null> | undefined;
+        /** Focus to this bar */
+        focus: () => void;
+    }): any;
+}> & {
+    default(props: {
+        /** Open another bar */
+        open: (bar: string | BartenderBar_2, keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2> | undefined;
+        /** Toggle another bar */
+        toggle: (bar: string | BartenderBar_2, keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2 | null> | undefined;
+        /** Close this bar */
+        close: () => Promise<BartenderBar_2 | null> | undefined;
+        /** Focus to this bar */
+        focus: () => void;
+    }): any;
 }>;
 
 export declare const createBartender: (options?: BartenderOptions, barDefaultOptions?: BartenderBarDefaultOptions) => Plugin_2;

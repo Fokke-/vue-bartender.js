@@ -1,5 +1,4 @@
 // TODO: document directive modifiers
-// TODO: add closeall directive
 import { type DirectiveBinding, type Plugin } from 'vue'
 import {
   type BartenderOptions,
@@ -20,17 +19,11 @@ const createBartender = (
 
   return {
     install(app) {
-      // Provide Bartender instance
-      // app.provide('bartender', instance)
-
       // Directive for opening bar
       app.directive('bartender-open', {
         mounted(el: HTMLElement, binding: DirectiveBinding) {
           el.addEventListener('click', () => {
-            bartender?.open(binding.value, {
-              keepOtherBars: !!binding.modifiers.keepOtherBars,
-              standardDialog: !!binding.modifiers.standardDialog,
-            })
+            bartender?.open(binding.value, !!binding.modifiers.keep)
           })
         },
       })
@@ -39,10 +32,7 @@ const createBartender = (
       app.directive('bartender-toggle', {
         mounted(el: HTMLElement, binding: DirectiveBinding) {
           el.addEventListener('click', () => {
-            bartender?.toggle(binding.value, {
-              keepOtherBars: !!binding.modifiers.keepOtherBars,
-              standardDialog: !!binding.modifiers.standardDialog,
-            })
+            bartender?.toggle(binding.value, !!binding.modifiers.keep)
           })
         },
       })

@@ -41,7 +41,7 @@
               :key="`bar-${item.name}`"
               type="button"
               :class="['button', `button--${item.name}`]"
-              v-bartender-open.keepOtherBars="item.name"
+              v-bartender-open.keep="item.name"
             >
               {{ item.name }}
             </button>
@@ -60,28 +60,31 @@
     :permanent="bar.options.permanent"
     :scroll-top="bar.options.scrollTop"
   >
-    <div class="block">
-      <h2>Bar '{{ bar.name }}'</h2>
-      <BarConfig
-        v-model:name="bar.name"
-        v-model:options="bar.options"
-        edit-mode
-      />
-    </div>
-    <div class="block">
-      <h2>Open another bar?</h2>
-      <div class="buttons">
-        <template v-for="item of bars" :key="item.name">
-          <button
-            v-if="item.name !== bar.name"
-            type="button"
-            v-bartender-open.keepOtherBars="item.name"
-          >
-            <span class="sr-only">Toggle</span> {{ item.name }}
-          </button>
-        </template>
+    <template #default="{ close, open }">
+      <div class="block">
+        <h2>Bar '{{ bar.name }}'</h2>
+        <BarConfig
+          v-model:name="bar.name"
+          v-model:options="bar.options"
+          edit-mode
+        />
+        <button type="button" @click="close">Close this bar</button>
       </div>
-    </div>
+      <div class="block">
+        <h2>Open another bar?</h2>
+        <div class="buttons">
+          <template v-for="item of bars" :key="item.name">
+            <button
+              v-if="item.name !== bar.name"
+              type="button"
+              @click="open(item.name)"
+            >
+              {{ item.name }}
+            </button>
+          </template>
+        </div>
+      </div>
+    </template>
   </BartenderBar>
 </template>
 
@@ -153,7 +156,6 @@ onMounted(() => {
 
 <style lang="scss">
 @import 'modern-normalize/modern-normalize.css';
-@import '@fokke-/bartender.js/dist/bartender.scss';
 @import './assets/utils';
 @import './assets/base';
 @import './assets/form';

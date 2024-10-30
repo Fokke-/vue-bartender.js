@@ -36,7 +36,7 @@
     }
   },
   "dependencies": {
-    "@fokke-/bartender.js": "3.0.0-beta.9"
+    "@fokke-/bartender.js": "3.0.0-beta.10"
   },
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "2.0.4",

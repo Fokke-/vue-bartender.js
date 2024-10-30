@@ -1,13 +1,16 @@
 <template>
   <dialog ref="el" v-bind="$attrs">
-    <slot />
+    <slot
+      name="default"
+      :open="open"
+      :toggle="toggle"
+      :close="close"
+      :focus="focus"
+    />
   </dialog>
 </template>
 
 <script setup lang="ts">
-// TODO: expose close?
-// TODO: expose focus?
-// TODO: bind methods to slot?
 import { useTemplateRef } from 'vue'
 import {
   type BartenderBarDefaultOptions,
@@ -23,10 +26,27 @@ interface BarComponentProps extends BartenderBarDefaultOptions {
 
 const props = withDefaults(defineProps<BarComponentProps>(), {
   position: undefined,
+  modal: undefined,
   overlay: undefined,
   permanent: undefined,
   scrollTop: undefined,
 })
+
+defineSlots<{
+  default(props: {
+    /** Open another bar */
+    open: typeof open
+
+    /** Toggle another bar */
+    toggle: typeof toggle
+
+    /** Close this bar */
+    close: typeof close
+
+    /** Focus to this bar */
+    focus: typeof focus
+  }): any
+}>()
 
 const emit = defineEmits<{
   updated: [event: CustomEvent]
@@ -37,8 +57,62 @@ const emit = defineEmits<{
 }>()
 
 const bartender = useBartender()
-const bar = ref<BartenderBar>()
+const barInstance = ref<BartenderBar>()
 const el = useTemplateRef<HTMLDialogElement>('el')
+
+/**
+ * Open another bar
+ */
+const open = (
+  bar: BartenderBar | string,
+  keepOtherBarsOpen: boolean = false,
+) => {
+  if (!bartender) {
+    return
+  }
+
+  return bartender.open(bar, keepOtherBarsOpen)
+}
+
+/**
+ * Toggle another bar
+ */
+const toggle = (
+  bar: BartenderBar | string,
+  keepOtherBarsOpen: boolean = false,
+) => {
+  if (!bartender) {
+    return
+  }
+
+  return bartender.toggle(bar, keepOtherBarsOpen)
+}
+
+/**
+ * Close this bar
+ */
+const close = () => {
+  if (!bartender || !barInstance.value) {
+    return
+  }
+
+  return bartender.close(barInstance.value.name)
+}
+
+/**
+ * Focus to this bar
+ */
+const focus = () => {
+  el.value?.focus()
+}
+
+defineExpose({
+  /** Close this bar */
+  close,
+
+  /** Focus to the bar */
+  focus,
+})
 
 onMounted(() => {
   if (!bartender) {
@@ -51,7 +125,7 @@ onMounted(() => {
   }
 
   try {
-    bar.value = bartender.addBar(props.name, {
+    barInstance.value = bartender.addBar(props.name, {
       el: el.value,
       ...props,
     })
@@ -89,41 +163,41 @@ onMounted(() => {
   watch(
     () => props.position,
     (val) => {
-      if (!bar.value || typeof val === 'undefined') {
+      if (!barInstance.value || typeof val === 'undefined') {
         return
       }
 
-      bar.value.position = val
+      barInstance.value.position = val
     },
   )
   watch(
     () => props.overlay,
     (val) => {
-      if (!bar.value || typeof val === 'undefined') {
+      if (!barInstance.value || typeof val === 'undefined') {
         return
       }
 
-      bar.value.overlay = val
+      barInstance.value.overlay = val
     },
   )
   watch(
     () => props.permanent,
     (val) => {
-      if (!bar.value || typeof val === 'undefined') {
+      if (!barInstance.value || typeof val === 'undefined') {
         return
       }
 
-      bar.value.permanent = val
+      barInstance.value.permanent = val
     },
   )
   watch(
     () => props.scrollTop,
     (val) => {
-      if (!bar.value || typeof val === 'undefined') {
+      if (!barInstance.value || typeof val === 'undefined') {
         return
       }
 
-      bar.value.scrollTop = val
+      barInstance.value.scrollTop = val
     },
   )
 })

@@ -3,10 +3,12 @@
   <button v-bartender-toggle="'wunderBar'">Open it</button>
 
   <BartenderBar name="wunderBar">
-    <div class="block">
-      <p>Wunderbar!</p>
-      <button v-bartender-close>Close</button>
-    </div>
+    <template #default="{ close }">
+      <div class="block">
+        <p>Wunderbar!</p>
+        <button @click="close">Close</button>
+      </div>
+    </template>
   </BartenderBar>
 </template>
 

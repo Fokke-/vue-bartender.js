@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createBartender } from './'
-import '@fokke-/bartender.js/dist/bartender.scss'
+import '@fokke-/bartender.js/dist/bartender.css'
 
 import App from './App.vue'
 import Home from './views/Home.vue'

@@ -89,9 +89,9 @@ const x = /* @__PURE__ */ b({
   }
 });
 let l = null;
-const C = (i = {}, f = {}) => (l = new h(i, f), {
+const C = (i = {}, f = {}) => ({
   install(d) {
-    d.directive("bartender-open", {
+    l = new h(i, f), d.directive("bartender-open", {
       mounted(r, t) {
         r.addEventListener("click", () => {
           l?.open(t.value, !!t.modifiers.keep);

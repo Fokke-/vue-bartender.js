@@ -1,4 +1,4 @@
-import { defineComponent as b, ref as B, useTemplateRef as g, onMounted as y, onBeforeUnmount as E, openBlock as k, createElementBlock as L, mergeProps as _, renderSlot as T, watch as s } from "vue";
+import { defineComponent as b, ref as B, useTemplateRef as g, onMounted as y, onBeforeUnmount as E, openBlock as L, createElementBlock as k, mergeProps as T, renderSlot as _, watch as s } from "vue";
 import { Bartender as h } from "@fokke-/bartender.js";
 const x = /* @__PURE__ */ b({
   __name: "BartenderBar",
@@ -12,7 +12,7 @@ const x = /* @__PURE__ */ b({
   },
   emits: ["updated", "before-open", "after-open", "before-close", "after-close"],
   setup(i, { expose: f, emit: d }) {
-    const r = i, t = d, n = w(), o = B(), a = g("el"), v = (e, u = !1) => {
+    const r = i, t = d, n = w(), o = B(), a = g("dialogEl"), v = (e, u = !1) => {
       if (n)
         return n.open(e, u);
     }, m = (e, u = !1) => {
@@ -78,11 +78,8 @@ const x = /* @__PURE__ */ b({
       }
     }), E(() => {
       !n || !n.getBar(r.name) || n.removeBar(r.name);
-    }), (e, u) => (k(), L("dialog", _({
-      ref_key: "el",
-      ref: a
-    }, e.$attrs), [
-      T(e.$slots, "default", {
+    }), (e, u) => (L(), k("dialog", T({ ref: "dialogEl" }, e.$attrs), [
+      _(e.$slots, "default", {
         open: v,
         toggle: m,
         close: c,

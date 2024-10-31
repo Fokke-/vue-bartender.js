@@ -1,4 +1,4 @@
-import { type DirectiveBinding, type Plugin, onMounted } from 'vue'
+import { type DirectiveBinding, type Plugin } from 'vue'
 import {
   type BartenderOptions,
   type BartenderBarDefaultOptions,

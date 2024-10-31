@@ -1,5 +1,4 @@
-// TODO: document directive modifiers
-import { type DirectiveBinding, type Plugin } from 'vue'
+import { type DirectiveBinding, type Plugin, onMounted } from 'vue'
 import {
   type BartenderOptions,
   type BartenderBarDefaultOptions,
@@ -14,11 +13,11 @@ const createBartender = (
   options: BartenderOptions = {},
   barDefaultOptions: BartenderBarDefaultOptions = {},
 ): Plugin => {
-  // Create a new instance
-  bartender = new Bartender(options, barDefaultOptions)
-
   return {
     install(app) {
+      // Create a new instance
+      bartender = new Bartender(options, barDefaultOptions)
+
       // Directive for opening bar
       app.directive('bartender-open', {
         mounted(el: HTMLElement, binding: DirectiveBinding) {

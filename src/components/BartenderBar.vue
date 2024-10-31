@@ -1,5 +1,5 @@
 <template>
-  <dialog ref="el" v-bind="$attrs">
+  <dialog ref="dialogEl" v-bind="$attrs">
     <slot
       name="default"
       :open="open"
@@ -58,7 +58,7 @@ const emit = defineEmits<{
 
 const bartender = useBartender()
 const barInstance = ref<BartenderBar>()
-const el = useTemplateRef<HTMLDialogElement>('el')
+const el = useTemplateRef<HTMLDialogElement>('dialogEl')
 
 /**
  * Open another bar

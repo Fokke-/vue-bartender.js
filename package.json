@@ -36,7 +36,7 @@
     }
   },
   "devDependencies": {
-    "@fokke-/bartender.js": "3.0.0-beta.12",
+    "@fokke-/bartender.js": "3.1.0",
     "@nabla/vite-plugin-eslint": "2.0.4",
     "@tsconfig/node22": "22.0.0",
     "@types/node": "22.8.2",
@@ -55,7 +55,7 @@
     "vue-tsc": "2.1.8"
   },
   "peerDependencies": {
-    "@fokke-/bartender.js": "^3.0.0",
-    "vue": "^3.5.0"
+    "@fokke-/bartender.js": "^3.0",
+    "vue": "^3.5"
   }
 }

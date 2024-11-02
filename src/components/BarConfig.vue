@@ -26,7 +26,10 @@
               :value="item.value"
               :id="`${barName}-position-${item.value}`"
             />
-            <label class="radio__label" :for="`${barName}-position-${item.value}`">
+            <label
+              class="radio__label"
+              :for="`${barName}-position-${item.value}`"
+            >
               {{ item.label }}
             </label>
           </div>
@@ -45,7 +48,10 @@
               name="settings"
               :id="`${barName}-setting-${item.value}`"
             />
-            <label class="checkbox__label" :for="`${barName}-setting-${item.value}`">
+            <label
+              class="checkbox__label"
+              :for="`${barName}-setting-${item.value}`"
+            >
               {{ item.label }}
             </label>
           </div>
@@ -95,6 +101,10 @@ const barPositions = [
   {
     label: 'Bottom',
     value: 'bottom',
+  },
+  {
+    label: 'Center',
+    value: 'center',
   },
 ]
 

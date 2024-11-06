@@ -25,6 +25,7 @@
   "files": [
     "LICENSE",
     "README.md",
+    "CHANGELOG.md",
     "dist"
   ],
   "types": "./dist/index.d.ts",

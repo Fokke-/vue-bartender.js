@@ -1,4 +1,5 @@
 <template>
+  <slot name="activator" :open="openThis" :toggle="toggleThis" />
   <dialog ref="dialogEl" v-bind="$attrs">
     <slot
       name="default"
@@ -24,6 +25,10 @@ interface BarComponentProps extends BartenderBarDefaultOptions {
   name: string
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = withDefaults(defineProps<BarComponentProps>(), {
   position: undefined,
   modal: undefined,
@@ -46,6 +51,13 @@ defineSlots<{
     /** Focus to this bar */
     focus: typeof focus
   }): any
+  activator(props: {
+    /** Open this bar */
+    open: typeof openThis
+
+    /** Toggle this bar */
+    toggle: typeof toggleThis
+  }): any
 }>()
 
 const emit = defineEmits<{
@@ -61,6 +73,17 @@ const barInstance = ref<BartenderBar>()
 const el = useTemplateRef<HTMLDialogElement>('dialogEl')
 
 /**
+ * Open this bar
+ */
+const openThis = (keepOtherBarsOpen: boolean = false) => {
+  if (!bartender) {
+    return
+  }
+
+  return bartender.open(props.name, keepOtherBarsOpen)
+}
+
+/**
  * Open another bar
  */
 const open = (
@@ -72,6 +95,17 @@ const open = (
   }
 
   return bartender.open(bar, keepOtherBarsOpen)
+}
+
+/**
+ * Toggle this bar
+ */
+const toggleThis = (keepOtherBarsOpen: boolean = false) => {
+  if (!bartender) {
+    return
+  }
+
+  return bartender.toggle(props.name, keepOtherBarsOpen)
 }
 
 /**
@@ -107,10 +141,16 @@ const focus = () => {
 }
 
 defineExpose({
+  /** Open this bar */
+  open: openThis,
+
+  /** Toggle this bar */
+  toggle: toggleThis,
+
   /** Close this bar */
   close,
 
-  /** Focus to the bar */
+  /** Focus to this bar */
   focus,
 })
 

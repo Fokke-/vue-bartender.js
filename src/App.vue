@@ -46,6 +46,20 @@
               {{ item.name }}
             </button>
           </div>
+
+          <h2>Activator slot</h2>
+          <div class="buttons">
+            <BartenderBar name="withActivator" position="center">
+              <template #activator="{ open }">
+                <button type="button" @click="open()">
+                  Open using activator slot
+                </button>
+              </template>
+              <template #default>
+                <p>Hello!</p>
+              </template>
+            </BartenderBar>
+          </div>
         </div>
       </div>
     </div>

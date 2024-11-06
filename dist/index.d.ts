@@ -21,9 +21,13 @@ declare interface BarComponentProps extends BartenderBarDefaultOptions {
 }
 
 export declare const BartenderBar: __VLS_WithTemplateSlots<DefineComponent<BarComponentProps, {
+/** Open this bar */
+open: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2> | undefined;
+/** Toggle this bar */
+toggle: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2 | null> | undefined;
 /** Close this bar */
 close: () => Promise<BartenderBar_2 | null> | undefined;
-/** Focus to the bar */
+/** Focus to this bar */
 focus: () => void;
 }, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
 updated: (event: CustomEvent<any>) => any;
@@ -54,6 +58,12 @@ scrollTop: boolean;
         /** Focus to this bar */
         focus: () => void;
     }): any;
+    activator(props: {
+        /** Open this bar */
+        open: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2> | undefined;
+        /** Toggle this bar */
+        toggle: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2 | null> | undefined;
+    }): any;
 }> & {
     default(props: {
         /** Open another bar */
@@ -64,6 +74,12 @@ scrollTop: boolean;
         close: () => Promise<BartenderBar_2 | null> | undefined;
         /** Focus to this bar */
         focus: () => void;
+    }): any;
+    activator(props: {
+        /** Open this bar */
+        open: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2> | undefined;
+        /** Toggle this bar */
+        toggle: (keepOtherBarsOpen?: boolean) => Promise<BartenderBar_2 | null> | undefined;
     }): any;
 }>;
 

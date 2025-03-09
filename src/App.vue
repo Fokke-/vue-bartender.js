@@ -169,10 +169,10 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@use './assets/utils';
+@use './assets/base';
+@use './assets/form';
 @import 'modern-normalize/modern-normalize.css';
-@import './assets/utils';
-@import './assets/base';
-@import './assets/form';
 
 body {
   line-height: 1.5;

@@ -175,29 +175,21 @@ onMounted(() => {
   }
 
   // Emit library events
-  el.value.addEventListener('bartender-bar-updated', ((event: CustomEvent) => {
-    emit('updated', event)
-  }) as EventListener)
-  el.value.addEventListener('bartender-bar-before-open', ((
-    event: CustomEvent,
-  ) => {
-    emit('before-open', event)
-  }) as EventListener)
-  el.value.addEventListener('bartender-bar-after-open', ((
-    event: CustomEvent,
-  ) => {
-    emit('after-open', event)
-  }) as EventListener)
-  el.value.addEventListener('bartender-bar-before-close', ((
-    event: CustomEvent,
-  ) => {
-    emit('before-close', event)
-  }) as EventListener)
-  el.value.addEventListener('bartender-bar-after-close', ((
-    event: CustomEvent,
-  ) => {
-    emit('after-close', event)
-  }) as EventListener)
+  el.value.addEventListener('bartender-bar-updated', (event: Event) => {
+    emit('updated', event as CustomEvent)
+  })
+  el.value.addEventListener('bartender-bar-before-open', (event: Event) => {
+    emit('before-open', event as CustomEvent)
+  })
+  el.value.addEventListener('bartender-bar-after-open', (event: Event) => {
+    emit('after-open', event as CustomEvent)
+  })
+  el.value.addEventListener('bartender-bar-before-close', (event: Event) => {
+    emit('before-close', event as CustomEvent)
+  })
+  el.value.addEventListener('bartender-bar-after-close', (event: Event) => {
+    emit('after-close', event as CustomEvent)
+  })
 
   // Update bar configuration when props change
   watch(

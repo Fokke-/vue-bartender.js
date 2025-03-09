@@ -1,4 +1,4 @@
-import { defineComponent as y, ref as E, useTemplateRef as L, onMounted as k, onBeforeUnmount as h, openBlock as T, createElementBlock as _, Fragment as $, renderSlot as b, createElementVNode as w, mergeProps as Y, watch as s } from "vue";
+import { defineComponent as y, ref as E, useTemplateRef as L, onMounted as k, onBeforeUnmount as h, createElementBlock as T, openBlock as _, Fragment as $, renderSlot as b, createElementVNode as w, mergeProps as Y, watch as s } from "vue";
 import { Bartender as A } from "@fokke-/bartender.js";
 const M = /* @__PURE__ */ y({
   inheritAttrs: !1,
@@ -89,7 +89,7 @@ const M = /* @__PURE__ */ y({
       }
     }), h(() => {
       !t || !t.getBar(r.name) || t.removeBar(r.name);
-    }), (e, u) => (T(), _($, null, [
+    }), (e, u) => (_(), T($, null, [
       b(e.$slots, "activator", {
         open: c,
         toggle: p

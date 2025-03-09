@@ -3,17 +3,21 @@
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
+import globals from 'globals'
 
 export default tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...pluginVue.configs['flat/recommended'],
+  tseslint.configs.recommended,
+  pluginVue.configs['flat/recommended'],
   {
     plugins: {
       'typescript-eslint': tseslint.plugin,
     },
     files: ['*.vue', '**/*.vue'],
     languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
       parserOptions: {
         parser: tseslint.parser,
         extraFileExtensions: ['.vue'],

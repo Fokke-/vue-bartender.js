@@ -1,4 +1,4 @@
-import { BartenderBarDefaultOptions, BartenderBar } from '@fokke-/bartender.js';
+import { BartenderBarDefaultOptions, BartenderBar, BartenderBarEvent, BartenderBarUpdatedEvent } from '@fokke-/bartender.js';
 interface BarComponentProps extends BartenderBarDefaultOptions {
     /** Unique bar name */
     name: string;
@@ -80,17 +80,17 @@ declare const __VLS_component: import('vue').DefineComponent<BarComponentProps, 
     /** Focus to this bar */
     focus: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    updated: (event: CustomEvent<any>) => any;
-    "before-open": (event: CustomEvent<any>) => any;
-    "after-open": (event: CustomEvent<any>) => any;
-    "before-close": (event: CustomEvent<any>) => any;
-    "after-close": (event: CustomEvent<any>) => any;
+    updated: (event: BartenderBarUpdatedEvent) => any;
+    "before-open": (event: BartenderBarEvent) => any;
+    "after-open": (event: BartenderBarEvent) => any;
+    "before-close": (event: BartenderBarEvent) => any;
+    "after-close": (event: BartenderBarEvent) => any;
 }, string, import('vue').PublicProps, Readonly<BarComponentProps> & Readonly<{
-    onUpdated?: ((event: CustomEvent<any>) => any) | undefined;
-    "onBefore-open"?: ((event: CustomEvent<any>) => any) | undefined;
-    "onAfter-open"?: ((event: CustomEvent<any>) => any) | undefined;
-    "onBefore-close"?: ((event: CustomEvent<any>) => any) | undefined;
-    "onAfter-close"?: ((event: CustomEvent<any>) => any) | undefined;
+    onUpdated?: ((event: BartenderBarUpdatedEvent) => any) | undefined;
+    "onBefore-open"?: ((event: BartenderBarEvent) => any) | undefined;
+    "onAfter-open"?: ((event: BartenderBarEvent) => any) | undefined;
+    "onBefore-close"?: ((event: BartenderBarEvent) => any) | undefined;
+    "onAfter-close"?: ((event: BartenderBarEvent) => any) | undefined;
 }>, {
     position: import('@fokke-/bartender.js').BartenderBarPosition;
     modal: boolean;

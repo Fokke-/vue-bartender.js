@@ -4,12 +4,14 @@ import {
   type BartenderBarDefaultOptions,
   Bartender,
 } from '@fokke-/bartender.js'
-import BartenderBar from './components/BartenderBar.vue'
+
+import BartenderBar from './lib/components/BartenderBar.vue'
+export { BartenderBar }
 
 // Bartender instance
 let bartender: Bartender | null = null
 
-const createBartender = (
+export const createBartender = (
   options: BartenderOptions = {},
   barDefaultOptions: BartenderBarDefaultOptions = {},
 ): Plugin => {
@@ -48,7 +50,7 @@ const createBartender = (
   }
 }
 
-const useBartender = () => {
+export const useBartender = () => {
   if (!bartender) {
     console.error(
       'You must enable Bartender plugin before calling useBartender().',
@@ -57,5 +59,3 @@ const useBartender = () => {
 
   return bartender
 }
-
-export { createBartender, useBartender, BartenderBar }

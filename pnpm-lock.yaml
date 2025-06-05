@@ -8,9 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@eslint/js':
+        specifier: 9.28.0
+        version: 9.28.0
       '@fokke-/bartender.js':
-        specifier: 3.2.0-beta.2
-        version: 3.2.0-beta.2
+        specifier: 3.2.0-beta.3
+        version: 3.2.0-beta.3
       '@nabla/vite-plugin-eslint':
         specifier: 2.0.5
         version: 2.0.5(eslint@9.28.0)(vite@6.3.5(@types/node@22.15.30)(sass@1.89.1))
@@ -276,8 +279,8 @@ packages:
     resolution: {integrity: sha512-0J+zgWxHN+xXONWIyPWKFMgVuJoZuGiIFu8yxk7RJjxkzpGmyja5wRFqZIVtjDVOQpV+Rw0iOAjYPE2eQyjr0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fokke-/bartender.js@3.2.0-beta.2':
-    resolution: {integrity: sha512-11EHkp+UJ0g30jX1H4ujG466pp8PpZ0ZRNhe5yA3L9iLg5RJjrbBQ3Juge7Gwg3b17DdWeA8FUWlKAqaVfq50Q==}
+  '@fokke-/bartender.js@3.2.0-beta.3':
+    resolution: {integrity: sha512-ggqwbWv0c92dAj/bamlEWNeu+hJ+g9rrzCT40+I1HsLkHjajfM4/2hk1qExxTW3mJrKsrAw61JH1niJQ4Ektgw==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -1568,7 +1571,7 @@ snapshots:
       '@eslint/core': 0.14.0
       levn: 0.4.1
 
-  '@fokke-/bartender.js@3.2.0-beta.2': {}
+  '@fokke-/bartender.js@3.2.0-beta.3': {}
 
   '@humanfs/core@0.19.1': {}
 

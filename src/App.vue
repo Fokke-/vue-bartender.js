@@ -73,6 +73,19 @@
     :overlay="bar.options.overlay"
     :permanent="bar.options.permanent"
     :scroll-top="bar.options.scrollTop"
+    @updated="
+      (evt) =>
+        console.warn(
+          'updated',
+          evt.detail.bar,
+          evt.detail.property,
+          evt.detail.value,
+        )
+    "
+    @before-open="(evt) => console.warn('before-open', evt.detail.bar)"
+    @after-open="(evt) => console.warn('after-open', evt.detail.bar)"
+    @before-close="(evt) => console.warn('before-close', evt.detail.bar)"
+    @after-close="(evt) => console.warn('after-close', evt.detail.bar)"
   >
     <template #default="{ close, open }">
       <div class="block">
@@ -108,7 +121,7 @@ import type { Bar } from './types.d'
 import type { BartenderBarDefaultOptions } from '@fokke-/bartender.js'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import BartenderBar from './components/BartenderBar.vue'
+import BartenderBar from './lib/components/BartenderBar.vue'
 import BarConfig from './components/BarConfig.vue'
 
 const router = useRouter()

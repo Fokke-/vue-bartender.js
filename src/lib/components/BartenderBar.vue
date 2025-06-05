@@ -15,10 +15,12 @@
 import { useTemplateRef } from 'vue'
 import {
   type BartenderBarDefaultOptions,
-  BartenderBar,
+  type BartenderBar,
+  type BartenderBarEvent,
+  type BartenderBarUpdatedEvent,
 } from '@fokke-/bartender.js'
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import { useBartender } from '../'
+import { useBartender } from '../../index'
 
 interface BarComponentProps extends BartenderBarDefaultOptions {
   /** Unique bar name */
@@ -61,11 +63,11 @@ defineSlots<{
 }>()
 
 const emit = defineEmits<{
-  updated: [event: CustomEvent]
-  'before-open': [event: CustomEvent]
-  'after-open': [event: CustomEvent]
-  'before-close': [event: CustomEvent]
-  'after-close': [event: CustomEvent]
+  updated: [event: BartenderBarUpdatedEvent]
+  'before-open': [event: BartenderBarEvent]
+  'after-open': [event: BartenderBarEvent]
+  'before-close': [event: BartenderBarEvent]
+  'after-close': [event: BartenderBarEvent]
 }>()
 
 const bartender = useBartender()
@@ -176,19 +178,19 @@ onMounted(() => {
 
   // Emit library events
   el.value.addEventListener('bartender-bar-updated', (event: Event) => {
-    emit('updated', event as CustomEvent)
+    emit('updated', event as BartenderBarUpdatedEvent)
   })
   el.value.addEventListener('bartender-bar-before-open', (event: Event) => {
-    emit('before-open', event as CustomEvent)
+    emit('before-open', event as BartenderBarEvent)
   })
   el.value.addEventListener('bartender-bar-after-open', (event: Event) => {
-    emit('after-open', event as CustomEvent)
+    emit('after-open', event as BartenderBarEvent)
   })
   el.value.addEventListener('bartender-bar-before-close', (event: Event) => {
-    emit('before-close', event as CustomEvent)
+    emit('before-close', event as BartenderBarEvent)
   })
   el.value.addEventListener('bartender-bar-after-close', (event: Event) => {
-    emit('after-close', event as CustomEvent)
+    emit('after-close', event as BartenderBarEvent)
   })
 
   // Update bar configuration when props change

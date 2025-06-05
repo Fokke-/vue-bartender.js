@@ -29,8 +29,9 @@ export default defineConfig({
     }),
     vue(),
     dts({
-      tsconfigPath: './tsconfig.app.json',
-      rollupTypes: true,
+      include: ['./src/index.ts', './src/lib/**/*'],
+      tsconfigPath: './tsconfig.json',
+      rollupTypes: false,
       copyDtsFiles: true,
     }),
   ],

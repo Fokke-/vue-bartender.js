@@ -13,5 +13,5 @@
 </template>
 
 <script lang="ts" setup>
-import BartenderBar from '../components/BartenderBar.vue'
+import BartenderBar from '../lib/components/BartenderBar.vue'
 </script>

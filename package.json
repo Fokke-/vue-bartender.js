@@ -15,7 +15,8 @@
     "accessibility",
     "a11y",
     "sidebar",
-    "navigation"
+    "navigation",
+    "vue"
   ],
   "scripts": {
     "dev": "vite --host",
@@ -37,7 +38,8 @@
     }
   },
   "devDependencies": {
-    "@fokke-/bartender.js": "3.2.0-beta.2",
+    "@eslint/js": "9.28.0",
+    "@fokke-/bartender.js": "3.2.0-beta.3",
     "@nabla/vite-plugin-eslint": "2.0.5",
     "@tsconfig/node22": "22.0.2",
     "@types/node": "22.15.30",
@@ -59,7 +61,7 @@
     "vue-tsc": "2.2.10"
   },
   "peerDependencies": {
-    "@fokke-/bartender.js": "^3.0",
+    "@fokke-/bartender.js": "^3.2",
     "vue": "^3.5"
   }
 }
